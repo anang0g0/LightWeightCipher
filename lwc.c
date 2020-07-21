@@ -285,9 +285,9 @@ enc (unsigned char b[2048],unsigned char key[32])
   
   srand(111);
   //printf("in enc\n");
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     {
-      inv_x[x0[i]] = i;
+      inv[y0[i]] = i;
       //inv_y[tt[i]]=i;
     }
 
@@ -297,26 +297,26 @@ enc (unsigned char b[2048],unsigned char key[32])
 
 
   //デバッグ中なので省略
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     //f[i] ^= salt[i];
 
 
   k = 0;
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     f[i] ^= b[i];
 
   int l;
-  memcpy (v, f, sizeof (unsigned char) * NN);
+  memcpy (v, f, sizeof (unsigned char) * 32);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);//Sbox[key[z[i]]];
   //バッファを埋める回数だけ回す
   //printf("--------------------------------------------------------begin\n");
-  for (j = 0; j < 2048/NN; j++)
+  for (j = 0; j < 2048/32; j++)
     {
 
-      for (l = 0; l < NN; l++)
-	z[l] = x0[x1[inv_x[l]]];
+      for (l = 0; l < 32; l++)
+	z[l] = y0[y1[inv[l]]];
       
-      memcpy (x1, z, sizeof (unsigned char) * NN);
+      memcpy (x1, z, sizeof (unsigned char) * 32);
       
       //round
       for(k=0;k<10;k++){
@@ -342,31 +342,31 @@ enc (unsigned char b[2048],unsigned char key[32])
 	memcpy(key2,tmp.d,sizeof(unsigned char)*(32));
 	
 	
-	for (i = 0; i < NN; i++)
+	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]]^key2[i%32];//gf[f[z[i]]];
+	  v[i] = Sbox[f[z[i]]]^key2[i];//gf[f[z[i]]];
 	  
 	}
       
       //roun();
       }
-      memcpy (f, v, sizeof (unsigned char) * NN);      
+      memcpy (f, v, sizeof (unsigned char) * 32);      
 
       //}
 
       //print for debugging
-      for(i=0;i<NN;i++){
+      for(i=0;i<32;i++){
 	//printf("%02x",f[i]);
-	n.c[j*NN+i]=f[i];
+	n.c[j*32+i]=f[i];
       }
       //printf("\n");
       
 
-      if(count < 2048 / NN)
+      if(count < 2048 / 32)
 	{			//k=1;k<2048/NN;k++){
-	  for (i = 0; i < NN; i++){
-	    f[i] = b[count * NN + i];
+	  for (i = 0; i < 32; i++){
+	    f[i] = b[count * 32 + i];
 	  }
 	}
 
@@ -426,36 +426,36 @@ dec (unsigned char b[2048],unsigned char key[32])
   printf("\n");
   //  exit(1);
   
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     {
-      inv_x[x0[i]] = i;
+      inv[y0[i]] = i;
       //inv_y[tt[i]]=i;
     }
 
 
   //デバッグ中なので省略
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     //f[i] ^= salt[i];
 
 
   k = 0;
-  for (i = 0; i < NN; i++)
+  for (i = 0; i < 32; i++)
     f[i] ^= b[i];
 
   int l;
-  memcpy (v, f, sizeof (unsigned char) * NN);
+  memcpy (v, f, sizeof (unsigned char) * 32);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);
   //バッファを埋める回数だけ回す
   printf("end--------------------------------------------------\n");
-  for (j = 0; j < 2048/NN; j++)
+  for (j = 0; j < 2048/32; j++)
     {
 
       
-	for (l = 0; l < NN; l++)
-	z[l] = x0[x1[inv_x[l]]];
+	for (l = 0; l < 32; l++)
+	z[l] = y0[y1[inv[l]]];
       
 
-	for(l=0;l<NN;l++)
+	for(l=0;l<32;l++)
 	w[z[l]]=l;
 
       memcpy (x1, z, sizeof (unsigned char) * NN);
@@ -483,34 +483,34 @@ dec (unsigned char b[2048],unsigned char key[32])
 	}
 
       
-      for (i = 0; i < NN; i++)
+      for (i = 0; i < 32; i++)
 	{
 
-	  v[i]=invSbox[f[i]^key1[i%32]];//^key[i];
+	  v[i]=invSbox[f[i]^key1[i]];//^key[i];
 	    	      
 	}
       
       //roun();
       }      
       
-      for(i=0;i<NN;i++)
+      for(i=0;i<32;i++)
 	f[i]=v[w[i]];
       //memcpy (f, v, sizeof (unsigned char) * NN);
 
       
       
       //print for debugging
-      for(i=0;i<NN;i++){
+      for(i=0;i<32;i++){
 	//printf("%c",f[i]);
-	n.c[j*NN+i]=f[i];
+	n.c[j*32+i]=f[i];
       }
       //printf("\n");
       
 
-      if(count < 2048 / NN)
+      if(count < 2048 / 32)
 	{			//k=1;k<2048/NN;k++){
-	  for (i = 0; i < NN; i++){
-	    f[i] = b[count * NN + i];
+	  for (i = 0; i < 32; i++){
+	    f[i] = b[count * 32 + i];
 	  }
 	}
 
