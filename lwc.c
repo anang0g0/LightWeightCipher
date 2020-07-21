@@ -330,9 +330,6 @@ enc (unsigned char b[2048],unsigned char key[32])
       //round
       for(k=0;k<10;k++){
 
-	//for(i=0;i<NN;i++)
-
-
 
 	for (i = 0; i < 32; i++)
 	{
@@ -343,8 +340,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	
 	//for(i=0;i<32;i++)
 	//v[i]^=key[i];
-      //roun();
-	// }
+
       memcpy (f, v, sizeof (unsigned char) * 32);      
 
       }
@@ -461,10 +457,6 @@ dec (unsigned char b[2048],unsigned char key[32])
 
       //round SPN
 	for(k=0;k<10;k++){
-	  
-	  //  for(i=0;i<NN;i++)
-
-	  
 	  
 	  
 	  //for(i=0;i<32;i++)
