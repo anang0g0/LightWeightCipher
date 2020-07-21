@@ -301,6 +301,11 @@ enc (unsigned char b[2048],unsigned char key[32])
     f[i] ^= b[i];
 
   memcpy(aaa,key,sizeof(unsigned char)*NN);
+  for(i=0;i<NN;i++)
+  printf("%d,",aaa[i]);
+  printf("\n");
+  // exit(1);
+  
   int l;
   memcpy (v, f, sizeof (unsigned char) * NN);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);//Sbox[key[z[i]]];
@@ -315,11 +320,11 @@ enc (unsigned char b[2048],unsigned char key[32])
       memcpy (y1, z, sizeof (unsigned char) * NN);
       
       for(l=0;l<NN;l++)
-	aaa[l]=aaa[z[l]];
+      aaa[l]=aaa[y0[l]];
       for(l=0;l<NN;l++)
 	printf("%d,",aaa[l]);
       printf("\n");
-      // exit(1);
+      //exit(1);
       
       //round
       for(k=0;k<10;k++){
@@ -348,7 +353,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	for (i = 0; i < NN; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]]^key2[i]^aaa[i];//gf[f[z[i]]];
+	  v[i] = Sbox[f[y0[i]]]^key2[i]^aaa[i];//gf[f[z[i]]];
 	  
 	}
       
@@ -438,7 +443,11 @@ dec (unsigned char b[2048],unsigned char key[32])
     f[i] ^= b[i];
 
   memcpy(aaa,key,sizeof(unsigned char)*NN);
-  
+    for(i=0;i<NN;i++)
+    printf("%d,",aaa[i]);
+  printf("\n");
+  //  exit(1);
+
   int l;
   memcpy (v, f, sizeof (unsigned char) * NN);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);
@@ -457,8 +466,12 @@ dec (unsigned char b[2048],unsigned char key[32])
 
       memcpy (y1, z, sizeof (unsigned char) * NN);
 
-      for(i=0;i<NN;i++)
-	aaa[i]=aaa[z[i]];
+      for(l=0;l<NN;l++)
+      aaa[l]=aaa[y0[l]];
+      for(l=0;l<NN;l++)
+	printf("%d,",aaa[l]);
+      printf("\n");
+      // exit(1);
       
       //round
      for(k=0;k<10;k++){
@@ -493,7 +506,7 @@ dec (unsigned char b[2048],unsigned char key[32])
       }      
       
       for(i=0;i<NN;i++)
-	f[i]=v[w[i]];
+	f[i]=v[inv[i]];
       //memcpy (f, v, sizeof (unsigned char) * NN);
 
       
@@ -538,7 +551,7 @@ hash (int argc, char *argv[])
   FILE *fp,*fq;
   arrayA a = { 0 };
   arrayA b = { 0 };
-
+  unsigned char v[32]={0};
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
     53,35,34,59,7,62,39,50,42,21,
@@ -581,10 +594,10 @@ hash (int argc, char *argv[])
 	    rnd[i]=y0[y1[inv[i]]];
 	  memcpy(y1,rnd,sizeof(unsigned char)*32);
 	  
-	  for(i=0;i<32;i++)
-	    key[i]^=key[rnd[i]];
-	  
-	 
+	  //for(i=0;i<32;i++)
+	  //key[i]=key[rnd[i]];
+	  //for(i=0;i<NN;i++)
+	  //key[i]^=v[i];
 	  
 	a = enc (buf,key);
 	
