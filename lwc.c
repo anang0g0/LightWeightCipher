@@ -314,32 +314,40 @@ enc (unsigned char b[2048],unsigned char key[32])
   for (j = 0; j < 2048/32; j++)
     {
 
-      //cnt++;
-      for (l = 0; l < 32; l++)
-	z[l] = y0[y1[inv[l]]];
+      cnt++;
       
-      memcpy (y1, z, sizeof (unsigned char) * 32);
+      for (l = 0; l < 32; l++){
+	  z[l] = y0[y1[inv[l]]];
+	  // printf("%d,",z[l]);
+      }
+      //printf("\n");
       
-      //for(i=0;i<NN;i++)
-      //  key[i]^=key[z[i]];
+	memcpy (y1, z, sizeof (unsigned char) * 32);
+
+	for(i=0;i<NN;i++)
+	key[i]=key[z[i]];
 	
       //round
       for(k=0;k<10;k++){
+
+	//for(i=0;i<NN;i++)
+
 
 
 	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]]^key[i];;
+	  v[i] = Sbox[f[z[i]]]^key[i];
 
 	}
+	
 	//for(i=0;i<32;i++)
-	// v[i]^=key[i];
+	//v[i]^=key[i];
       //roun();
 	// }
       memcpy (f, v, sizeof (unsigned char) * 32);      
 
-         }
+      }
 
       //print for debugging
       for(i=0;i<32;i++){
@@ -448,26 +456,30 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
 	memcpy (y1, z, sizeof (unsigned char) * NN);
 
-	//for(i=0;i<NN;i++)
-	//key[i]^=key[z[i]];
-	   
+	for(i=0;i<NN;i++)
+	  key[i]=key[z[i]];
+
       //round SPN
-      for(k=0;k<10;k++){
+	for(k=0;k<10;k++){
+	  
+	  //  for(i=0;i<NN;i++)
 
+	  
+	  
+	  
+	  //for(i=0;i<32;i++)
+	  //f[i]^=key[i];
 	
-	//for(i=0;i<32;i++)
-	// f[i]^=key[i];
-	
-	for (i = 0; i < 32; i++)
-	{
-
-	  v[i]=invSbox[f[w[i]]^key[w[i]]];
-	    	      
+	  for (i = 0; i < 32; i++)
+	    {
+	      //
+	      v[i]=invSbox[f[w[i]]^key[w[i]]];
+	      
+	    }
+	  
+	  
+	  memcpy (f, v, sizeof (unsigned char) * NN);
 	}
-             
-      
-      memcpy (f, v, sizeof (unsigned char) * NN);
-       }
       
       
       //print for debugging
@@ -560,7 +572,7 @@ hash (int argc, char *argv[])
 	 
 	  
 	a = enc (buf,key);
-	
+	/*
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");
@@ -572,7 +584,8 @@ hash (int argc, char *argv[])
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
 	  printf("\n");
-	
+	  // exit(1);
+	  */
 	  n = 0;
 	}
     }
