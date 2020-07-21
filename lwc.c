@@ -313,51 +313,29 @@ enc (unsigned char b[2048],unsigned char key[32])
   for (j = 0; j < 2048/32; j++)
     {
 
-      	for (l = 0; l < 32; l++)
-	  z[l] = y0[y1[inv[l]]];
+      
+      for (l = 0; l < 32; l++)
+	z[l] = y0[y1[inv[l]]];
+      
+      memcpy (y1, z, sizeof (unsigned char) * 32);
+      
+      //for(i=0;i<NN;i++)
+      //  key[i]^=key[z[i]];
 	
-	memcpy (y1, z, sizeof (unsigned char) * 32);
-
       //round
       for(k=0;k<10;k++){
+	
 
-	
-	/*
-	for(i=0;i<32;i++){
-	  key[i]^=key[y1[i]];
-	}
-	*/
-		
-	//鍵スケジューリング（適当）
-	/*
-	for(i=0;i<4;i++){
-	  if(i%3==0)
-	    u[i]=ROTL64(tmp.u[i],13);
-	  if(i%3==1)
-	    u[i]=ROTR64(tmp.u[i],7);
-	  if(i%3==2)
-	    u[i]=ROTR64(tmp.u[i],17);
-	}
-	*/
-	/*
-	for(i=0;i<4;i++){
-	  printf("%llu,",u[i]);
-	  printf("\n");
-	  if(u[i]==18446744073709551615ULL)
-	    scanf("&d",&p);
-	}
-	*/
-	//memcpy(tmp.u,u,sizeof(unsigned long long int)*(4));
-	//memcpy(key2,tmp.d,sizeof(unsigned char)*(32));
-	
-	
+
+
 	for (i = 0; i < 32; i++)
 	{
 	  
 	  v[i] = Sbox[f[z[i]]];//gf[f[z[i]]];
-	  // v[i]^=key[i];
+
 	}
-      
+	for(i=0;i<32;i++)
+	  v[i]^=key[i];
       //roun();
 	// }
       memcpy (f, v, sizeof (unsigned char) * 32);      
@@ -459,61 +437,32 @@ dec (unsigned char b[2048],unsigned char key[32])
   for (j = 0; j < 2048/32; j++)
     {
 
-      
-
-       	for (l = 0; l < 32; l++)
-	z[l] = y0[y1[inv[l]]];
-      
-
+	
+	for (l = 0; l < 32; l++)
+	  z[l] = y0[y1[inv[l]]];
+	
+	
 	for(l=0;l<32;l++)
-	w[z[l]]=l;
+	  w[z[l]]=l;
+	
+	memcpy (y1, z, sizeof (unsigned char) * NN);
 
-      memcpy (y1, z, sizeof (unsigned char) * NN);
+	//for(i=0;i<NN;i++)
+	//key[i]^=key[z[i]];
+	   
+      //round SPN
+      for(k=0;k<10;k++){
 
-   
-      
-      //round
-       for(k=0;k<10;k++){
-    
-       /*
-       for(i=0;i<32;i++){
-	 key1[i]^=key1[y1[i]];
-       }
-       */
-       
-	/*
-      //サブキー
-      for(i=0;i<4;i++){
-	if(i%3==0)
-	  u[i]=ROTL64(tmp.u[i],13);
-	if(i%3==1)
-	  u[i]=ROTR64(tmp.u[i],7);
-	if(i%3==2)
-	  u[i]=ROTR64(tmp.u[i],17);
-      }
-	*/
-       //memcpy(tmp.u,u,sizeof(unsigned long long int)*(4));
-       //memcpy(key1,tmp.d,sizeof(unsigned char)*(32));      
-
-       //for(i=0;i<4;i++){
-	// printf("%llu,",u[i]);
-	//printf("\n");
-	//if(u[i]==18446744073709551615ULL)
-	//  scanf("&d",&p);
-	//}
-
-      
-      for (i = 0; i < 32; i++)
+	
+	for(i=0;i<32;i++)
+	  f[i]^=key[i];
+	
+	for (i = 0; i < 32; i++)
 	{
 
 	  v[i]=invSbox[f[w[i]]];
 	    	      
 	}
-
-      // for(i=0;i<32;i++)
-      //f[i]=v[w[i]];
-
-      //roun();
              
       
       memcpy (f, v, sizeof (unsigned char) * NN);
