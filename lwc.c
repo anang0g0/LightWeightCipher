@@ -329,8 +329,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	
       //round
       for(k=0;k<10;k++){
-
-
+	
 	for (i = 0; i < 32; i++)
 	{
 	  
@@ -458,7 +457,6 @@ dec (unsigned char b[2048],unsigned char key[32])
       //round SPN
 	for(k=0;k<10;k++){
 	  
-	  
 	  //for(i=0;i<32;i++)
 	  //f[i]^=key[i];
 	
@@ -564,7 +562,7 @@ hash (int argc, char *argv[])
 	 
 	  
 	a = enc (buf,key);
-	/*
+	
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");
@@ -577,7 +575,7 @@ hash (int argc, char *argv[])
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	  */
+	  
 	  n = 0;
 	}
     }
