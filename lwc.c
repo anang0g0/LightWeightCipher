@@ -97,7 +97,7 @@ arrayn c={0};
 
 
 
-
+int cnt=0,cnt2=0;
 
 unsigned char inv_x[NN] = { 0 };
 /*
@@ -266,6 +266,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 
   //={ 148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
 
+
   unsigned char z[NN]={0}, w[NN]={0},aa[NN]={0},a=0;
   unsigned char v[NN] = { 0 }, f[NN] = { 0 };
   unsigned char inv_y[NN];
@@ -313,7 +314,7 @@ enc (unsigned char b[2048],unsigned char key[32])
   for (j = 0; j < 2048/32; j++)
     {
 
-      
+      //cnt++;
       for (l = 0; l < 32; l++)
 	z[l] = y0[y1[inv[l]]];
       
@@ -324,18 +325,16 @@ enc (unsigned char b[2048],unsigned char key[32])
 	
       //round
       for(k=0;k<10;k++){
-	
-
 
 
 	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]];//gf[f[z[i]]];
+	  v[i] = Sbox[f[z[i]]]^key[i];;
 
 	}
-	for(i=0;i<32;i++)
-	  v[i]^=key[i];
+	//for(i=0;i<32;i++)
+	// v[i]^=key[i];
       //roun();
 	// }
       memcpy (f, v, sizeof (unsigned char) * 32);      
@@ -359,6 +358,8 @@ enc (unsigned char b[2048],unsigned char key[32])
 
       count++;
     }
+
+
 
   //memcpy (n.ar, f, sizeof (unsigned char) * NN);
 
@@ -454,13 +455,13 @@ dec (unsigned char b[2048],unsigned char key[32])
       for(k=0;k<10;k++){
 
 	
-	for(i=0;i<32;i++)
-	  f[i]^=key[i];
+	//for(i=0;i<32;i++)
+	// f[i]^=key[i];
 	
 	for (i = 0; i < 32; i++)
 	{
 
-	  v[i]=invSbox[f[w[i]]];
+	  v[i]=invSbox[f[w[i]]^key[w[i]]];
 	    	      
 	}
              
@@ -634,7 +635,7 @@ main (int argc, char *argv[])
       */
       printf (" %s", argv[1]);
       printf ("\n");
-
+      printf("1st=%u\n",cnt);
     }
   else
     {
