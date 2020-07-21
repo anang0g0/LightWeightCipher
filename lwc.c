@@ -353,7 +353,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]]^key2[i];
+	  v[i] = Sbox[f[z[i]]]^key2[i]^key[i];
 
 	}
 	
@@ -472,7 +472,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 	memcpy (y1, z, sizeof (unsigned char) * NN);
 
 	for(i=0;i<NN;i++)
-	  key1[i]=key1[z[i]];
+	  key[i]=key[z[i]];
 
       //round SPN
 	for(k=0;k<10;k++){
@@ -501,7 +501,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 	  for (i = 0; i < 32; i++)
 	    {
 	      //
-	      v[i]=invSbox[f[w[i]]^key1[w[i]]];
+	      v[i]=invSbox[f[w[i]]^key1[w[i]]^key[i]];
 	      
 	    }
 	  
