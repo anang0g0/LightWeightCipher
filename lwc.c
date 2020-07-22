@@ -320,7 +320,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]];//^kkk[i];
+	  v[i] = Sbox[f[z[i]]];//^kkk[z[i]];
 
 	}
 	
@@ -462,7 +462,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 	  for (i = 0; i < 32; i++)
 	    {
 	      //
-	      v[i]=invSbox[f[w[i]]];//^kkk[w[i]]];
+	      v[i]=invSbox[f[w[i]]];//^kkk[i]
 	      
 	    }
 	  
