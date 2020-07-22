@@ -243,7 +243,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 {
   int i, j ,p= 0;
   arrayA n;
-  arrayull tmp={0};
+  arrayull tmp={0},aaa={0};
 
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
@@ -279,7 +279,8 @@ enc (unsigned char b[2048],unsigned char key[32])
   srand(111);
   //printf("in enc\n");
 
-
+  for(i=0;i<NN;i++)
+    aaa.d[i]=rand()%256;
   //デバッグ中なので省略
   for (i = 0; i < 32; i++)
     //f[i] ^= salt[i];
@@ -308,18 +309,24 @@ enc (unsigned char b[2048],unsigned char key[32])
       //printf("zz\n");
       
 	memcpy (y1, z, sizeof (unsigned char) * 32);
-	unsigned char aaa[32]={0};
 
-     
+
+
       //round
       for(k=0;k<10;k++){
 
 	
 	//サブキーのつもり
-	for(i=0;i<NN;i++)
-	  f[i]^=ROTL8(kkk[i],3);
+	for(i=0;i<NN;i++){
+	  //f[i]^=ROTL8(kkk[i],3);
+	  f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+	nn=aaa.d[0];
+	for(i=1;i<NN;i++)
+	  aa[i-1]=aaa.d[i];
+	aaa.d[31]=nn;
 
-	
+ 
 	for (i = 0; i < 32; i++)
 	{
 	  
@@ -372,7 +379,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 {
   int i, j = 0;
   arrayA n;
-  arrayull tmp={0};
+  arrayull tmp={0},aaa={0};
 
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
@@ -393,7 +400,7 @@ dec (unsigned char b[2048],unsigned char key[32])
   FILE *fp, *op;
   int  count = 1;
   time_t t;
-  int k,p;
+  int k,p,nn;
   unsigned char rnd[32]={0},inv[32]={0};
 
   unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
@@ -402,8 +409,11 @@ dec (unsigned char b[2048],unsigned char key[32])
   
   srand(111);
   printf("in dec\n");
-
   printf("\n");
+  
+  for(i=0;i<NN;i++)
+    aaa.d[i]=rand()%256;
+
   //  exit(1);
   
   for (i = 0; i < 32; i++)
@@ -464,8 +474,14 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
 	
 	//サブキーのつもり
-	for(i=0;i<NN;i++)
-	  f[i]^=ROTL8(kkk[i],3);
+	for(i=0;i<NN;i++){
+	  //f[i]^=ROTL8(kkk[i],3);
+	  f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+	nn=aaa.d[0];
+	for(i=1;i<NN;i++)
+	  aa[i-1]=aaa.d[i];
+	aaa.d[31]=nn;
 	
       }
 
