@@ -596,14 +596,14 @@ hash (int argc, char *argv[])
 	 
 	  
 	a = enc (buf,key);
-	
+	/*
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
 	  // exit(1);
 	  //memset(key,0,sizeof(key));
 	  //memcpy(key,kkk,sizeof(unsigned char)*32);
-
+	  */
 	  b=dec(a.c,key);
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
