@@ -243,7 +243,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 {
   int i, j ,p= 0;
   arrayA n;
-  arrayull tmp={0},aaa={0};
+  arrayull tmp={0},aaa={0},bbb={0};
 
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
@@ -310,22 +310,30 @@ enc (unsigned char b[2048],unsigned char key[32])
       
 	memcpy (y1, z, sizeof (unsigned char) * 32);
 
-
-
+	/*
+	for(i=0;i<NN;i++){
+	  f[i]^=ROTL8(kkk[i],i%8);
+	  //f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+	*/
       //round
       for(k=0;k<10;k++){
 
 	
 	//サブキーのつもり
-	for(i=0;i<NN;i++){
-	  //f[i]^=ROTL8(kkk[i],3);
-	  f[i]^=ROTL8(aaa.d[i],i%8);
+	memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	for(i=0;i<4;i++){
+	  //f[i]^=ROTL8(kkk[i],i%8);
+	  bbb.u[i]^=ROTL64(aaa.u[i],11);
 	}
-	nn=aaa.d[0];
-	for(i=1;i<NN;i++)
-	  aa[i-1]=aaa.d[i];
-	aaa.d[31]=nn;
-
+	memcpy(f,bbb.d,sizeof(unsigned char)*32);
+	/*
+	for(i=0;i<NN;i++){
+	  //  f[i]^=ROTL8(kkk[i],i%8);
+	  f[i]^=aaa.d[i];
+	}
+	*/
+	
  
 	for (i = 0; i < 32; i++)
 	{
@@ -340,7 +348,8 @@ enc (unsigned char b[2048],unsigned char key[32])
       memcpy (f, v, sizeof (unsigned char) * 32);      
 
       }
-
+      
+      
       
       //print for debugging
       for(i=0;i<32;i++){
@@ -379,7 +388,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 {
   int i, j = 0;
   arrayA n;
-  arrayull tmp={0},aaa={0};
+  arrayull tmp={0},aaa={0},bbb={0};
 
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
@@ -433,7 +442,8 @@ dec (unsigned char b[2048],unsigned char key[32])
     f[i] ^= b[i];
 
   int l;
-
+  unsigned long long int o;
+  
   
   memcpy (v, f, sizeof (unsigned char) * 32);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);
@@ -474,16 +484,21 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
 	
 	//サブキーのつもり
-	for(i=0;i<NN;i++){
-	  //f[i]^=ROTL8(kkk[i],3);
-	  f[i]^=ROTL8(aaa.d[i],i%8);
+	memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	for(i=0;i<4;i++){
+	  //f[i]^=ROTL8(kkk[i],i%8);
+	  bbb.u[i]^=ROTL64(aaa.u[i],11);
 	}
-	nn=aaa.d[0];
-	for(i=1;i<NN;i++)
-	  aa[i-1]=aaa.d[i];
-	aaa.d[31]=nn;
+	memcpy(f,bbb.d,sizeof(unsigned char)*32);
 	
       }
+      /*
+	for(i=0;i<NN;i++){
+	  f[i]^=ROTL8(kkk[i],i%8);
+	  //f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+      */  
+      
 
       //サブキー？
       //for(i=0;i<NN;i++)
@@ -584,8 +599,7 @@ hash (int argc, char *argv[])
 	/*
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
-	  printf("\n");
-	*/
+	  printf("\n");  
 	  // exit(1);
 	  //memset(key,0,sizeof(key));
 	  //memcpy(key,kkk,sizeof(unsigned char)*32);
@@ -595,7 +609,7 @@ hash (int argc, char *argv[])
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	  
+	  */
 	  n = 0;
 	}
     }
