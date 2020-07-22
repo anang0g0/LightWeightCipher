@@ -299,10 +299,6 @@ enc (unsigned char b[2048],unsigned char key[32])
   for (j = 0; j < 2048/32; j++)
     {
       
-      //サブキー？
-      for(i=0;i<NN;i++)
-	f[i]^=kkk[i];
-
 
       cnt++;
       for (l = 0; l < 32; l++){
@@ -317,8 +313,11 @@ enc (unsigned char b[2048],unsigned char key[32])
      
       //round
       for(k=0;k<10;k++){
+
 	
 	//サブキーのつもり
+	for(i=0;i<NN;i++)
+	  f[i]^=kkk[i];
 
 	
 	for (i = 0; i < 32; i++)
@@ -450,27 +449,29 @@ dec (unsigned char b[2048],unsigned char key[32])
       //round SPN
       for(k=0;k<10;k++){
 	
-	//サブキーのつもり
 	
-	//for(i=0;i<32;i++)
-	//f[i]^=key[i];
+	
 	
 	for (i = 0; i < 32; i++)
 	  {
-	      //
+	    //
 	    v[i]=invSbox[f[w[i]]];
-	      
-	    }
+	    
+	  }
 	  
 	  
-	  memcpy (f, v, sizeof (unsigned char) * NN);
-
-
+	memcpy (f, v, sizeof (unsigned char) * NN);
+	
+	
+	//サブキーのつもり
+	for(i=0;i<NN;i++)
+	  f[i]^=kkk[i];
+	
       }
 
       //サブキー？
-      for(i=0;i<NN;i++)
-	f[i]^=kkk[i];
+      //for(i=0;i<NN;i++)
+      //f[i]^=kkk[i];
       
       
       
