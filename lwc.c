@@ -317,7 +317,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	
 	//サブキーのつもり
 	for(i=0;i<NN;i++)
-	  f[i]^=kkk[i];
+	  f[i]^=ROTL8(kkk[i],3);
 
 	
 	for (i = 0; i < 32; i++)
@@ -465,7 +465,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
 	//サブキーのつもり
 	for(i=0;i<NN;i++)
-	  f[i]^=kkk[i];
+	  f[i]^=ROTL8(kkk[i],3);
 	
       }
 
