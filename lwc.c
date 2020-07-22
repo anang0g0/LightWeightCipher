@@ -245,6 +245,12 @@ enc (unsigned char b[2048],unsigned char key[32])
   arrayA n;
   arrayull tmp={0};
 
+  unsigned char kkk[32]={
+    12,24,4,2,45,25,30,22,27,28,
+    53,35,34,59,7,62,39,50,42,21,
+    16,60,49,6,43,32,15,26,18,11,
+    0,33};
+
   
   unsigned char key2[32]={0};  
   unsigned long long int u[4]; 
@@ -259,7 +265,7 @@ enc (unsigned char b[2048],unsigned char key[32])
   FILE *fp, *op;
   int  count = 1;
   time_t t;
-  int k;
+  int k,nn;
   unsigned char rnd[32]={0};
   unsigned char inv[32]={0};
   unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
@@ -283,6 +289,9 @@ enc (unsigned char b[2048],unsigned char key[32])
   for (i = 0; i < 32; i++)
     f[i] ^= b[i];
 
+  for(i=0;i<32;i++)
+    kkk[i]=kkk[z[i]];	
+
   int l;
   memcpy (v, f, sizeof (unsigned char) * 32);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);//Sbox[key[z[i]]];
@@ -292,27 +301,26 @@ enc (unsigned char b[2048],unsigned char key[32])
     {
 
       cnt++;
-      
       for (l = 0; l < 32; l++){
 	  z[l] = y0[y1[inv[l]]];
-	  //printf("%d,",z[l]);
+	  printf("%d,",z[l]);
       }
-      //printf("zz\n");
+      printf("zz\n");
       
 	memcpy (y1, z, sizeof (unsigned char) * 32);
+	unsigned char aaa[32]={0};
 
-	
+	//	memcpy(aaa,key,sizeof(unsigned char)*32);
       //round
       for(k=0;k<10;k++){
 	
 	//サブキーのつもり
-	for(i=0;i<NN;i++)
-	  key[i]=key[z[i]];
+
 	
 	for (i = 0; i < 32; i++)
 	{
 	  
-	  v[i] = Sbox[f[z[i]]]^key[i];
+	  v[i] = Sbox[f[z[i]]];//^kkk[i];
 
 	}
 	
@@ -361,6 +369,13 @@ dec (unsigned char b[2048],unsigned char key[32])
   int i, j = 0;
   arrayA n;
   arrayull tmp={0};
+
+  unsigned char kkk[32]={
+    12,24,4,2,45,25,30,22,27,28,
+    53,35,34,59,7,62,39,50,42,21,
+    16,60,49,6,43,32,15,26,18,11,
+    0,33};
+
   
   unsigned char key1[32]={0};  
   arrayull key2={0};
@@ -413,6 +428,8 @@ dec (unsigned char b[2048],unsigned char key[32])
     f[i] ^= b[i];
 
   int l;
+
+
   memcpy (v, f, sizeof (unsigned char) * 32);
   memcpy(tmp.d,key,sizeof(unsigned char)*32);
   //バッファを埋める回数だけ回す
@@ -423,9 +440,9 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
       for (l = 0; l < 32; l++){
 	  z[l] = y0[y1[inv[l]]];
-	  //printf("%d,",z[l]);
+	  printf("%d,",z[l]);
       }
-      //printf("zz2\n");
+      printf("zz2\n");
       // exit(1);
       
 	for(l=0;l<32;l++)
@@ -438,8 +455,6 @@ dec (unsigned char b[2048],unsigned char key[32])
 	for(k=0;k<10;k++){
 
 	  //サブキーのつもり
-	  for(i=0;i<NN;i++)
-	    key[i]=key[w[i]];
 
 	  //for(i=0;i<32;i++)
 	  //f[i]^=key[i];
@@ -447,7 +462,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 	  for (i = 0; i < 32; i++)
 	    {
 	      //
-	      v[i]=invSbox[f[w[i]]^key[i]];
+	      v[i]=invSbox[f[w[i]]];//^kkk[w[i]]];
 	      
 	    }
 	  
