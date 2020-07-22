@@ -596,7 +596,7 @@ hash (int argc, char *argv[])
 	 
 	  
 	a = enc (buf,key);
-	/*
+	
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
@@ -609,7 +609,7 @@ hash (int argc, char *argv[])
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	  */
+	  
 	  n = 0;
 	}
     }
