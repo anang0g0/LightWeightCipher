@@ -1,3 +1,11 @@
+/*
+
+20200723:ver 0.1 Serpenters(symmetric cipher)
+         Public Domain
+
+ */
+
+
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -64,11 +72,12 @@ typedef struct pub
 
 arrayn c={0};
 
+
 typedef union {
 
-  unsigned int a;
-  unsigned short b[2];
-  unsigned char c[4];
+  unsigned int a[4];
+  unsigned short b[8];
+  unsigned char c[16];
 
 } half;
 
@@ -245,10 +254,22 @@ seed (void)
 }
 
 
+//散逸系カオス?
+half suck_splash(half w){
+  arrayull t={0};
+  half o={0},tmp={0};
+  int i,j,k;
+  
+
+  
+  return o;
+}
+
+
 //f-関数
 half f_fuction(half a,unsigned char key[32]){
   int i,j,k;
-  half t={0},v,f;
+  half t={0},v,f,queer;
 
   
   return t;
@@ -256,10 +277,10 @@ half f_fuction(half a,unsigned char key[32]){
 
 
 //まだよ、焦っちゃ駄目
-half feistel(unsigned char b[2048],unsigned char key[32]){
+arrayA feistel(unsigned char b[2048],unsigned char key[32]){
   int i,j,k;
   arrayA n={0};
-  half p={0},c={0},tmp={0};
+  half p={0},c={0},tmp={0},new;
 
 
 
@@ -273,7 +294,7 @@ half feistel(unsigned char b[2048],unsigned char key[32]){
 arrayA decrypt(unsigned char b[2048],unsigned char key[32]){
   int i,j,k;
   arrayA n;
-  half p={0},c={0},tmp={0};
+  half p={0},c={0},tmp={0},gay;
 
 
 
