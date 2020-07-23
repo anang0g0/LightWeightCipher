@@ -2,6 +2,8 @@
 
 パイコネ変換：https://ja.wikipedia.org/wiki/%E3%83%91%E3%82%A4%E3%81%93%E3%81%AD%E5%A4%89%E6%8F%9B
 
+符号を使った疑似乱数生成；https://www.di.ens.fr/~stern/data/St58.pdf
+
 
 20200723
 
