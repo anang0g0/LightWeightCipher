@@ -4,6 +4,8 @@
 
 符号を使った疑似乱数生成；https://www.di.ens.fr/~stern/data/St58.pdf
 
+Hash関数を使ったPRNG：http://ijcee.org/papers/439-JE503.pdf
+
 
 20200723
 
