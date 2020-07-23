@@ -270,7 +270,7 @@ half feistel(unsigned char b[2048],unsigned char key[32]){
 
 
 //工事中
-arrayA decyipt(unsigned char b[2048],unsigned char key[32]){
+arrayA decrypt(unsigned char b[2048],unsigned char key[32]){
   int i,j,k;
   arrayA n;
   half p={0},c={0},tmp={0};
