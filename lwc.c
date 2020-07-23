@@ -2,6 +2,7 @@
 
 20200723:ver 0.1 Serpenters(symmetric cipher)
          Public Domain
+Auther:クレモナのゲラルド
 
  */
 
@@ -11,7 +12,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
+#include <ctype.h>
+
 #include "p.c"
+
 
 
 #define N 4
@@ -344,13 +348,14 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 
 
   printf("in enc\n");
+  /*
   for(i=0;i<NN;i++)
     printf("%d,",y0[i]);
   printf("\n");
   for(i=0;i<NN;i++)
     printf("%d,",y1[i]);
   printf("\n");
-
+  */
   
   for(i=0;i<32;i++)
     inv[y0[i]]=i;
@@ -510,6 +515,8 @@ arrayA
   //unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
 
   printf("in dec\n");
+
+  /*
   for(i=0;i<NN;i++)
     printf("%d,",y0[i]);
   printf("\n");
@@ -517,6 +524,7 @@ arrayA
     printf("%d,",y3[i]);
   printf("\n");
   //exit(1);
+  */
   
   srand(111);
   printf("in dec\n");
@@ -753,21 +761,28 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 
 
 //蛇足
-arrayA
+arrayull
 crand (unsigned char u[NN],unsigned char y0[32], unsigned char y1[32])
 {
   arrayA a = { 0 };
   int i, j;
-  arrayA b = { 0 };
-  unsigned char key[32]={0};
+  arrayull b = { 0 };
+  unsigned char key[32]={
+    123,12,123,123,123,123,123,123,123,111,
+    111,111,111,11,111,111,222,222,222,222,
+    111,111,111,11,111,111,222,222,222,222,
+    22,132};
   
   a = enc (u,key,y0,y1);
+  // for(i=0;i<NN;i++)
+  //printf("%d,",a.c[i]);
+  //exit(1);
   j = 0;
-  memset (b.c, 0, sizeof (b.c));
-  for (i = 0; i < 2048; i++)
+  memset (b.d, 0, sizeof (b.d));
+  for (i = 0; i < NN; i++)
     {
-      b.c[j] ^= a.c[i];
-      b.c[j] = b.c[j] << 8;
+      b.d[i] ^= a.c[i];
+      //b.c[i] = b.d[i] << 8;
       if (i > 0 && i % 8 == 0)
 	j++;
     }
@@ -783,7 +798,12 @@ main (int argc, char *argv[])
   arrayul p;
   arrayA t;
   unsigned char y0[32],y1[32];
-
+  arrayull seed={0};
+  unsigned char kkk[32]={
+    12,24,4,2,45,25,30,22,27,28,
+    53,35,34,59,7,62,39,50,42,21,
+    16,60,49,6,43,32,15,26,18,11,
+    0,33};
   
   if (BYTE)
     {
@@ -815,7 +835,21 @@ main (int argc, char *argv[])
          printf("\n");
        */
       t = hash (argc, argv,y0,y1);
-
+      scanf("%llu",&seed.u[0]);
+      printf("%llu",seed.u[0]);
+      j=0;
+      // exit(1);
+      while(1){
+	seed=crand(seed.d,y0,y1);
+	for(i=0;i<32;i++)
+	  seed.d[i]=seed.d[i];
+	for(i=0;i<32;i++)
+	  printf("%d,",seed.d[i]);
+	printf("\n");
+	j++;
+	if(j>10)
+	  break;
+      }
       /*
       //慎ましくここは256ビットだけ
       for (i = 0; i < 2048; i++)
