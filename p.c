@@ -24,6 +24,7 @@ void mkcycle(){
   printf("%d\n",n);
   //   exit(1);
 
+  printf("input number(これは秘密鍵のハッシュ値に置き換える予定です):");
   scanf("%llu",&o);
   srand(o);
 
