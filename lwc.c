@@ -64,6 +64,14 @@ typedef struct pub
 
 arrayn c={0};
 
+typedef union {
+
+  unsigned int a;
+  unsigned short b[2];
+  unsigned char c[4];
+
+} half;
+
 
 
 //#define I8T char
@@ -236,8 +244,33 @@ seed (void)
 
 }
 
+//まだよ、焦っちゃ駄目
+half feistel(unsigned char b[2048],unsigned char key[32]){
+  int i,j,k;
+  arrayA n={0};
+  half p={0},c={0},tmp={0};
 
-//ハッシュ関数本体
+
+
+
+  
+  return n;
+}
+
+//工事中
+arrayA decyipt(unsigned char b[2048],unsigned char key[32]){
+  int i,j,k;
+  arrayA n;
+  half p={0},c={0},tmp={0};
+
+
+
+  
+  return n;
+}
+
+
+//暗号化
 arrayA
 enc (unsigned char b[2048],unsigned char key[32])
 {
@@ -320,10 +353,13 @@ enc (unsigned char b[2048],unsigned char key[32])
       for(k=0;k<9;k++){
 
 	
-	//サブキーのつもり
+	//平文バッファを共用体にコピー
 	memcpy(bbb.d,f,sizeof(unsigned char)*32);
 	//for(i=0;i<4;i++){
 	  //f[i]^=ROTL8(kkk[i],i%8);
+
+	//サブキーのつもり
+	//秘密鍵から生成されたサブキーを計算して平文バッファにXOR
 	aaa.u[1]^=ROTL64(aaa.u[0],i*3);
 	aaa.u[3]+=ROTL64(aaa.u[1],i*5);
 	aaa.u[2]&=ROTL64(aaa.u[2],i*7);
@@ -342,7 +378,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	}
 	*/
 	
- 
+	//シャッフル。置換しながら換字
 	for (i = 0; i < 32; i++)
 	{
 	  
@@ -352,7 +388,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	
 	//for(i=0;i<32;i++)
 	//v[i]^=key[i];
-
+	//バッファを入れ替えて9回再処理
       memcpy (f, v, sizeof (unsigned char) * 32);      
 
       }
@@ -390,7 +426,7 @@ enc (unsigned char b[2048],unsigned char key[32])
     }
 
 
-//ハッシュ関数本体
+//復号
 arrayA
 dec (unsigned char b[2048],unsigned char key[32])
 {
