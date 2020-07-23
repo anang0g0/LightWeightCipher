@@ -317,15 +317,23 @@ enc (unsigned char b[2048],unsigned char key[32])
 	}
 	*/
       //round
-      for(k=0;k<10;k++){
+      for(k=0;k<9;k++){
 
 	
 	//サブキーのつもり
 	memcpy(bbb.d,f,sizeof(unsigned char)*32);
-	for(i=0;i<4;i++){
+	//for(i=0;i<4;i++){
 	  //f[i]^=ROTL8(kkk[i],i%8);
-	  bbb.u[i]^=ROTL64(aaa.u[i],11);
-	}
+	aaa.u[0]=ROTL64(aaa.u[0],i*3);
+	aaa.u[1]=ROTL64(aaa.u[1],i*5);
+	aaa.u[2]=ROTL64(aaa.u[2],i*7);
+	aaa.u[3]=ROTL64(aaa.u[3],i*11);
+
+	bbb.u[0]^=aaa.u[0];
+	bbb.u[1]^=aaa.u[1];
+	bbb.u[2]^=aaa.u[2];
+	bbb.u[3]^=aaa.u[3];
+
 	memcpy(f,bbb.d,sizeof(unsigned char)*32);
 	/*
 	for(i=0;i<NN;i++){
@@ -467,7 +475,7 @@ dec (unsigned char b[2048],unsigned char key[32])
       memcpy (y1, z, sizeof (unsigned char) * NN);
       
       //round SPN
-      for(k=0;k<10;k++){
+      for(k=0;k<9;k++){
 	
 	
 	
@@ -485,13 +493,23 @@ dec (unsigned char b[2048],unsigned char key[32])
 	
 	//サブキーのつもり
 	memcpy(bbb.d,f,sizeof(unsigned char)*32);
-	for(i=0;i<4;i++){
+	//for(i=0;i<4;i++){
 	  //f[i]^=ROTL8(kkk[i],i%8);
-	  bbb.u[i]^=ROTL64(aaa.u[i],11);
-	}
+	aaa.u[0]=ROTL64(aaa.u[0],i*3);
+	aaa.u[1]=ROTL64(aaa.u[1],i*5);
+	aaa.u[2]=ROTL64(aaa.u[2],i*7);
+	aaa.u[3]=ROTL64(aaa.u[3],i*11);
+
+	bbb.u[0]^=aaa.u[0];
+	bbb.u[1]^=aaa.u[1];
+	bbb.u[2]^=aaa.u[2];
+	bbb.u[3]^=aaa.u[3];
+
+	  //}
 	memcpy(f,bbb.d,sizeof(unsigned char)*32);
-	
+	//printf("%llu baka\n",bbb.u[0]);
       }
+      //printf("\n\n");
       /*
 	for(i=0;i<NN;i++){
 	  f[i]^=ROTL8(kkk[i],i%8);
@@ -600,16 +618,13 @@ hash (int argc, char *argv[])
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
-	  // exit(1);
-	  //memset(key,0,sizeof(key));
-	  //memcpy(key,kkk,sizeof(unsigned char)*32);
-	  */
+	*/
 	  b=dec(a.c,key);
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	  
+	    
 	  n = 0;
 	}
     }
