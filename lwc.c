@@ -476,7 +476,7 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 
 //復号（SPN）
 arrayA
-     dec (unsigned char b[2048],unsigned char key[32],unsigned char y0[32],unsigned char y1[32])
+     dec (unsigned char b[2048],unsigned char key[32],unsigned char y0[32])
 {
   int i, j = 0;
   arrayA n;
@@ -736,7 +736,7 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 	    printf("%d,",y1[i]);
 	  printf("\n");
 
-	  b=dec(a.c,key,y0,y1);
+	  b=dec(a.c,key,y0);
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
 	  printf("\n");
