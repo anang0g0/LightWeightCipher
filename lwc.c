@@ -244,6 +244,17 @@ seed (void)
 
 }
 
+
+//f-関数
+half f_fuction(half a,unsigned char key[32]){
+  int i,j,k;
+  half t={0},v,f;
+
+  
+  return t;
+}
+
+
 //まだよ、焦っちゃ駄目
 half feistel(unsigned char b[2048],unsigned char key[32]){
   int i,j,k;
@@ -256,6 +267,7 @@ half feistel(unsigned char b[2048],unsigned char key[32]){
   
   return n;
 }
+
 
 //工事中
 arrayA decyipt(unsigned char b[2048],unsigned char key[32]){
@@ -270,7 +282,7 @@ arrayA decyipt(unsigned char b[2048],unsigned char key[32]){
 }
 
 
-//暗号化
+//暗号化（SPN）
 arrayA
 enc (unsigned char b[2048],unsigned char key[32])
 {
@@ -426,7 +438,7 @@ enc (unsigned char b[2048],unsigned char key[32])
     }
 
 
-//復号
+//復号（SPN）
 arrayA
 dec (unsigned char b[2048],unsigned char key[32])
 {
