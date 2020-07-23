@@ -495,8 +495,8 @@ dec (unsigned char b[2048],unsigned char key[32])
 	memcpy(bbb.d,f,sizeof(unsigned char)*32);
 	//for(i=0;i<4;i++){
 	  //f[i]^=ROTL8(kkk[i],i%8);
-	aaa.u[1]+=ROTL64(aaa.u[0],i*3);
-	aaa.u[3]^=ROTL64(aaa.u[1],i*5);
+	aaa.u[1]^=ROTL64(aaa.u[0],i*3);
+	aaa.u[3]+=ROTL64(aaa.u[1],i*5);
 	aaa.u[2]&=ROTL64(aaa.u[2],i*7);
 	aaa.u[0]=ROTL64(aaa.u[3],i*11);
 
