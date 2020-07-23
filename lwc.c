@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
+#include "p.c"
 
 
 #define N 4
@@ -127,7 +128,6 @@ unsigned char key[32]={
 //unsigned char key[32]={0};
 
 
-
 //substitution
 unsigned char gf[256]={0,1,2,4,8,16,32,64,128,29,58,116,232,205,135,19,38,76,152,45,90,180,117,234,201,143,3,6,12,24,48,96,192,157,39,78,156,37,74,148,53,106,212,181,119,238,193,159,35,70,140,5,10,20,40,80,160,93,186,105,210,185,111,222,161,95,190,97,194,153,47,94,188,101,202,137,15,30,60,120,240,253,231,211,187,107,214,177,127,254,225,223,163,91,182,113,226,217,175,67,134,17,34,68,136,13,26,52,104,208,189,103,206,129,31,62,124,248,237,199,147,59,118,236,197,151,51,102,204,133,23,46,92,184,109,218,169,79,158,33,66,132,21,42,84,168,77,154,41,82,164,85,170,73,146,57,114,228,213,183,115,230,209,191,99,198,145,63,126,252,229,215,179,123,246,241,255,227,219,171,75,150,49,98,196,149,55,110,220,165,87,174,65,130,25,50,100,200,141,7,14,28,56,112,224,221,167,83,166,81,162,89,178,121,242,249,239,195,155,43,86,172,69,138,9,18,36,72,144,61,122,244,245,247,243,251,235,203,139,11,22,44,88,176,125,250,233,207,131,27,54,108,216,173,71,142};
 
@@ -182,6 +182,8 @@ static unsigned char invSbox[256] = {
 ,0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d
 };
 
+
+unsigned char y3[32];
 
 
 //言わずと知れたxorshift
@@ -305,7 +307,7 @@ arrayA decrypt(unsigned char b[2048],unsigned char key[32]){
 
 //暗号化（SPN）
 arrayA
-enc (unsigned char b[2048],unsigned char key[32])
+enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned char y1[32])
 {
   int i, j ,p= 0;
   arrayA n;
@@ -336,10 +338,20 @@ enc (unsigned char b[2048],unsigned char key[32])
   unsigned char inv[32]={0};
 
   //y0,y1を秘密鍵にするかも知れない
-  unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
+  // unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
   
-  unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
+  //unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
 
+
+  printf("in enc\n");
+  for(i=0;i<NN;i++)
+    printf("%d,",y0[i]);
+  printf("\n");
+  for(i=0;i<NN;i++)
+    printf("%d,",y1[i]);
+  printf("\n");
+
+  
   for(i=0;i<32;i++)
     inv[y0[i]]=i;
 
@@ -394,7 +406,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	  //f[i]^=ROTL8(kkk[i],i%8);
 
 	//サブキーのつもり
-	//秘密鍵から生成されたサブキーを計算して平文バッファにXOR
+	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
 	aaa.u[1]^=ROTL64(aaa.u[0],i*3);
 	aaa.u[3]+=ROTL64(aaa.u[1],i*5);
 	aaa.u[2]&=ROTL64(aaa.u[2],i*7);
@@ -412,7 +424,8 @@ enc (unsigned char b[2048],unsigned char key[32])
 	  f[i]^=aaa.d[i];
 	}
 	*/
-	
+
+
 	//シャッフル。置換しながら換字
 	for (i = 0; i < 32; i++)
 	{
@@ -424,7 +437,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 	//for(i=0;i<32;i++)
 	//v[i]^=key[i];
 	//バッファを入れ替えて9回再処理
-      memcpy (f, v, sizeof (unsigned char) * 32);      
+	memcpy (f, v, sizeof (unsigned char) * 32);      
 
       }
       
@@ -463,7 +476,7 @@ enc (unsigned char b[2048],unsigned char key[32])
 
 //復号（SPN）
 arrayA
-dec (unsigned char b[2048],unsigned char key[32])
+     dec (unsigned char b[2048],unsigned char key[32],unsigned char y0[32],unsigned char y1[32])
 {
   int i, j = 0;
   arrayA n;
@@ -492,9 +505,18 @@ dec (unsigned char b[2048],unsigned char key[32])
   unsigned char rnd[32]={0},inv[32]={0};
 
   //y0,y1を秘密鍵にするかも知れない
-  unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
+  // unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
   
-  unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
+  //unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
+
+  printf("in dec\n");
+  for(i=0;i<NN;i++)
+    printf("%d,",y0[i]);
+  printf("\n");
+  for(i=0;i<NN;i++)
+    printf("%d,",y3[i]);
+  printf("\n");
+  //exit(1);
   
   srand(111);
   printf("in dec\n");
@@ -534,7 +556,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 
 	
       for (l = 0; l < 32; l++){
-	  z[l] = y0[y1[inv[l]]];
+	  z[l] = y0[y3[inv[l]]];
 	  //  printf("%d,",z[l]);
       }
       //printf("zz2\n");
@@ -544,26 +566,25 @@ dec (unsigned char b[2048],unsigned char key[32])
 	w[z[i]]=i;
       
       
-      memcpy (y1, z, sizeof (unsigned char) * NN);
+      memcpy (y3, z, sizeof (unsigned char) * NN);
       
       //round SPN
       for(k=0;k<9;k++){
 	
 	
 	
-	
+	//memset(v,0,sizeof(unsigned char)*32);
 	for (i = 0; i < 32; i++)
 	  {
 	    //
-	    v[i]=invSbox[f[w[i]]];
+	    v[i] = invSbox[f[w[i]]];
 	    
 	  }
-	  
-	  
+	    
 	memcpy (f, v, sizeof (unsigned char) * NN);
 	
 	
-	//サブキーのつもり
+	//サブキーのつもり(roundに入っているから？)
 	memcpy(bbb.d,f,sizeof(unsigned char)*32);
 	//for(i=0;i<4;i++){
 	  //f[i]^=ROTL8(kkk[i],i%8);
@@ -627,7 +648,7 @@ dec (unsigned char b[2048],unsigned char key[32])
 
 //ファイル操作
 arrayA
-hash (int argc, char *argv[])
+hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 {
   int i, j, k, n;
   array16 h = { 0 };
@@ -637,6 +658,7 @@ hash (int argc, char *argv[])
   arrayA a = { 0 };
   arrayA b = { 0 };
 
+  //秘密鍵のつもり
   unsigned char kkk[32]={
     12,24,4,2,45,25,30,22,27,28,
     53,35,34,59,7,62,39,50,42,21,
@@ -645,9 +667,16 @@ hash (int argc, char *argv[])
   unsigned char key[32]={0},v[32]={0};
   unsigned char rnd[32]={0},inv[32]={0};
 
-  unsigned char  y0[32]={27,24,23,6,18,12,11,14,4,5,2,29,22,1,3,17,15,21,31,26,19,30,0,8,28,7,20,13,10,25,16,9};
-  
-  unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
+
+
+  for(i=0;i<NN;i++)
+    printf("%d,",y0[i]);
+  printf("\n");
+  for(i=0;i<NN;i++)
+    printf("%d,",y1[i]);
+  printf("\n");
+  //  exit(1);
+
 
   //
   for(i=0;i<32;i++)
@@ -678,20 +707,36 @@ hash (int argc, char *argv[])
 	  for(i=0;i<32;i++)
 	    rnd[i]=y0[y1[inv[i]]];
 	  memcpy(y1,rnd,sizeof(unsigned char)*32);
-	  
+	  memcpy(y3,rnd,sizeof(unsigned char)*32);
+
 	  for(i=0;i<32;i++){
 	    v[i]=key[rnd[i]];
      	    key[i]^=v[i];
 	  }
-	 
-	  
-	a = enc (buf,key);
+
+
+	  printf("test1\n");
+	  for(i=0;i<NN;i++)
+	    printf("%d,",y0[i]);
+	  printf("\n");
+	  for(i=0;i<NN;i++)
+	    printf("%d,",y1[i]);
+	  printf("\n");
+	  a = enc (buf,key,y0,y1);
 	/*
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
 	*/
-	  b=dec(a.c,key);
+	  printf("test2\n");
+	  for(i=0;i<NN;i++)
+	    printf("%d,",y0[i]);
+	  printf("\n");
+	  for(i=0;i<NN;i++)
+	    printf("%d,",y1[i]);
+	  printf("\n");
+
+	  b=dec(a.c,key,y0,y1);
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
 	  printf("\n");
@@ -709,14 +754,14 @@ hash (int argc, char *argv[])
 
 //蛇足
 arrayA
-  crand (unsigned char u[NN])
+crand (unsigned char u[NN],unsigned char y0[32], unsigned char y1[32])
 {
   arrayA a = { 0 };
   int i, j;
   arrayA b = { 0 };
   unsigned char key[32]={0};
   
-  a = enc (u,key);
+  a = enc (u,key,y0,y1);
   j = 0;
   memset (b.c, 0, sizeof (b.c));
   for (i = 0; i < 2048; i++)
@@ -737,11 +782,30 @@ main (int argc, char *argv[])
   int i, j, n;
   arrayul p;
   arrayA t;
+  unsigned char y0[32],y1[32];
 
-     
+  
   if (BYTE)
     {
 
+      
+      mkcycle();
+      for(i=0;i<32;i++){
+	y0[i]=x[0][i];
+	y1[i]=x[1][i];
+	y3[i]=x[1][i];
+      }
+      /*
+      for(i=0;i<NN;i++)
+	printf("%d,",y0[i]);
+      printf("\n");
+      for(i=0;i<NN;i++)
+	printf("%d,",y1[i]);
+      printf("\n");
+      */
+      
+      //exit(1);
+      
       /*
          for(i=0;i<256;i++)
          password[i]=rand()%256;
@@ -750,7 +814,7 @@ main (int argc, char *argv[])
          printf("%llx",p.u[i]);
          printf("\n");
        */
-      t = hash (argc, argv);
+      t = hash (argc, argv,y0,y1);
 
       /*
       //慎ましくここは256ビットだけ
