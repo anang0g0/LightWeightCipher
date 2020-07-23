@@ -65,7 +65,7 @@ typedef union aN
 typedef struct {
 
   unsigned char c[2048];
-  
+  unsigned long long int u[256];
 } arrayA;
 
 
@@ -656,7 +656,7 @@ arrayA
 
 //ファイル操作
 arrayA
-hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
+file (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 {
   int i, j, k, n;
   array16 h = { 0 };
@@ -761,12 +761,12 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 
 
 //蛇足
-arrayull
-crand (unsigned char u[NN],unsigned char y0[32], unsigned char y1[32])
+arrayA
+crand (unsigned char u[2048],unsigned char y0[32], unsigned char y1[32])
 {
   arrayA a = { 0 };
   int i, j;
-  arrayull b = { 0 };
+  arrayA b = { 0 };
   unsigned char key[32]={
     123,12,123,123,123,123,123,123,123,111,
     111,111,111,11,111,111,222,222,222,222,
@@ -774,20 +774,15 @@ crand (unsigned char u[NN],unsigned char y0[32], unsigned char y1[32])
     22,132};
   
   a = enc (u,key,y0,y1);
-  // for(i=0;i<NN;i++)
-  //printf("%d,",a.c[i]);
+  /*
+  for(i=0;i<2048;i++)
+    printf("%d,",a.c[i]);
+  printf("\n");
   //exit(1);
+  */
   j = 0;
-  memset (b.d, 0, sizeof (b.d));
-  for (i = 0; i < NN; i++)
-    {
-      b.d[i] ^= a.c[i];
-      //b.c[i] = b.d[i] << 8;
-      if (i > 0 && i % 8 == 0)
-	j++;
-    }
 
-  return b;
+  return a;
 }
 
 
@@ -795,7 +790,7 @@ int
 main (int argc, char *argv[])
 {
   int i, j, n;
-  arrayul p;
+  arrayA s;
   arrayA t;
   unsigned char y0[32],y1[32];
   arrayull seed={0};
@@ -834,18 +829,27 @@ main (int argc, char *argv[])
          printf("%llx",p.u[i]);
          printf("\n");
        */
-      t = hash (argc, argv,y0,y1);
+      t = file (argc, argv,y0,y1);
+
       scanf("%llu",&seed.u[0]);
       printf("%llu",seed.u[0]);
       j=0;
-      // exit(1);
+      
+      for(i=0;i<NN;i++)
+      s.c[i]=seed.d[i];
       while(1){
-	seed=crand(seed.d,y0,y1);
-	for(i=0;i<32;i++)
-	  seed.d[i]=seed.d[i];
-	for(i=0;i<32;i++)
-	  printf("%d,",seed.d[i]);
+	s=crand(s.c,y0,y1);
+	printf("in crand\n");
+	for(i=0;i<2048;i++)
+	  printf("%d,",s.c[i]);
 	printf("\n");
+	//exit(1);
+
+	for(i=0;i<32;i++)
+	  seed.d[i]=s.c[i];
+	//for(i=0;i<32;i++)
+	//printf("%d,",seed.d[i]);
+	//printf("\n");
 	j++;
 	if(j>10)
 	  break;
