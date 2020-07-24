@@ -345,7 +345,7 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
   //unsigned char y1[32]={20,7,26,9,6,12,8,16,15,22,23,17,29,25,10,24,30,28,27,31,18,13,19,14,4,1,3,11,0,2,5,21};
 
 
-  printf("in enc\n");
+  //printf("in enc\n");
   /*
   for(i=0;i<NN;i++)
     printf("%d,",y0[i]);
@@ -363,7 +363,7 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
   //printf("in enc\n");
 
   for(i=0;i<NN;i++){
-    //aaa.d[i]=rand()%256;
+    aaa.d[i]=rand()%256;
     if(aaa.d[0]==0){
       printf("baka\n");
       //exit(1);
@@ -373,11 +373,12 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 	  printf("1baka\n");
 	  //exit(1);
 	}
+	/*
 	for(i=0;i<NN;i++)
 	  printf("@ %d,",aaa.d[i]);
 	printf("\n");
 	//exit(1);
-	
+	*/
   //デバッグ中なので省略
   for (i = 0; i < 32; i++)
     //f[i] ^= salt[i];
@@ -408,52 +409,56 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 	memcpy (y1, z, sizeof (unsigned char) * 32);
 
 	/*
-	for(i=0;i<NN;i++){
-	  f[i]^=ROTL8(kkk[i],i%8);
-	  //f[i]^=ROTL8(aaa.d[i],i%8);
-	}
 	*/
 
-
+	
 	//round
 	for(k=0;k<9;k++){
 
 	
 	//平文バッファを共用体にコピー
-	//memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	memcpy(bbb.d,f,sizeof(unsigned char)*32);
 	
 	//exit(1);
 	
 	//サブキーのつもり
+	  /*
+	  for(i=0;i<NN;i++){
+	  f[i]^=ROTL8(kkk[i],i%8);
+	  f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+	  
 	for(i=0;i<NN;i++){
-	  // a=ROTL8(kkk[i],3);
-	  f[i]^=i+kkk[i];
-	 //kkk[i]=a;
-	  printf("baka %d %d\n",f[i],i);
+	  //a=ROTL8(kkk[i],3);
+	  f[i]^=i+aaa.d[i];
+	  //kkk[i]=a;
+
+	  // kkk[i]=a;
+	  printf("baka %d %d\n",aaa.d[i],i);
 	  
 	}
-	
+	  */
 	//exit(1);
-	/*
-	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
-	aaa.u[0]=ROTL64(aaa.u[0],3);
-	aaa.u[1]=ROTL64(aaa.u[1],5);
-	aaa.u[2]=ROTL64(aaa.u[2],7);
-	aaa.u[3]=ROTL64(aaa.u[3],11);
-	for(i=0;i<4;i++){
-	if(aaa.u[i]==0){
-	  printf("%llu %d\n",aaa.u[i],i);
-	  exit(1);
-	}
-	}
 	
+	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
+	bbb.u[0]^=ROTL64(aaa.u[0],3);
+	bbb.u[1]^=ROTL64(aaa.u[1],5);
+	bbb.u[2]^=ROTL64(aaa.u[2],7);
+	bbb.u[3]^=ROTL64(aaa.u[3],11);
+	for(i=0;i<4;i++){
+	  if(aaa.u[i]==0){
+	    printf("%llu %d\n",aaa.u[i],i);
+	    exit(1);
+	  }
+	}
+	/*
 	bbb.u[0]^=aaa.u[0];
 	bbb.u[1]^=aaa.u[1];
 	bbb.u[2]^=aaa.u[2];
 	bbb.u[3]^=aaa.u[3];
-	
-	memcpy(f,bbb.d,sizeof(unsigned char)*32);
 	*/
+	memcpy(f,bbb.d,sizeof(unsigned char)*32);
+	
 	/*
 	for(i=0;i<NN;i++){
 	  //  f[i]^=ROTL8(kkk[i],i%8);
@@ -561,8 +566,8 @@ arrayA
   printf("in dec\n");
   printf("\n");
   
-  //for(i=0;i<NN;i++)
-  //aaa.d[i]=rand()%256;
+  for(i=0;i<NN;i++)
+    aaa.d[i]=rand()%256;
 
   //  exit(1);
   
@@ -606,7 +611,7 @@ arrayA
       
       
       memcpy (y3, z, sizeof (unsigned char) * NN);
-      
+      a=0xf0;      
       //round SPN
       for(k=0;k<9;k++){
 	
@@ -624,37 +629,49 @@ arrayA
 	
 	
 	//サブキーのつもり(roundに入っているから？)
+	/*
+	for(i=0;i<NN;i++){
+	  f[i]^=ROTL8(kkk[i],i%8);
+	  f[i]^=ROTL8(aaa.d[i],i%8);
+	}
+	*/
+	/*
 	for(i=0;i<NN;i++){
 	  //a=ROTL8(kkk[i],3);
-	  f[i]^=i+kkk[i];
+	  f[i]^=i+aaa.d[i];
 	  //kkk[i]=a;
-	  printf("kaba %d %d\n",f[i],i);
+
+	  //kkk[i]=a;
+	  printf("kaba %d %d\n",aaa.d[i],i);
 	}
+	
 	printf("\n");
-	//memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	*/
+	//exit(1);
+	memcpy(bbb.d,f,sizeof(unsigned char)*32);
 	//for(i=0;i<32;i++){
 	//bbb.d[i]^=10;//ROTL8(kkk[i],i%8);
 	//}
-	/*
-	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
-	aaa.u[0]=ROTL64(aaa.u[0],3);
-	aaa.u[1]=ROTL64(aaa.u[1],5);
-	aaa.u[2]=ROTL64(aaa.u[2],7);
-	aaa.u[3]=ROTL64(aaa.u[3],11);
-	for(i=0;i<4;i++){
-	if(aaa.u[i]==0){
-	  printf("%llu %d\n",aaa.u[i],i);
-	  exit(1);
-	}
-	}
 	
+	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
+	bbb.u[0]^=ROTL64(aaa.u[0],3);
+	bbb.u[1]^=ROTL64(aaa.u[1],5);
+	bbb.u[2]^=ROTL64(aaa.u[2],7);
+	bbb.u[3]^=ROTL64(aaa.u[3],11);
+	for(i=0;i<4;i++){
+	  if(aaa.u[i]==0){
+	    printf("%llu %d\n",aaa.u[i],i);
+	    exit(1);
+	  }
+	}
+	/*
 	bbb.u[0]^=aaa.u[0];
 	bbb.u[1]^=aaa.u[1];
 	bbb.u[2]^=aaa.u[2];
 	bbb.u[3]^=aaa.u[3];
-	
-	memcpy(f,bbb.d,sizeof(unsigned char)*32);
 	*/
+	memcpy(f,bbb.d,sizeof(unsigned char)*32);
+	
 	  //}
 	//printf("%llu baka\n",bbb.u[0]);
 	
@@ -770,7 +787,7 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
      	    key[i]^=v[i];
 	  }
 
-
+	  /*
 	  printf("test1\n");
 	  for(i=0;i<NN;i++)
 	    printf("%d,",y0[i]);
@@ -778,14 +795,14 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 	  for(i=0;i<NN;i++)
 	    printf("%d,",y1[i]);
 	  printf("\n");
-
+	  */
 	  srand(111);
 	  a = enc (buf,key,y0,y1);
 	  /*
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
-	*/
+	
 	  printf("test2\n");
 	  for(i=0;i<NN;i++)
 	    printf("%d,",y0[i]);
@@ -800,7 +817,7 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	    
+	  */    
 	  n = 0;
 	}
     }
