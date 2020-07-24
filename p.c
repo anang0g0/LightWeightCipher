@@ -24,7 +24,6 @@ void mkcycle(){
   printf("%d\n",n);
   //   exit(1);
 
-  printf("input number(これは秘密鍵のハッシュ値に置き換える予定です):");
   scanf("%llu",&o);
   srand(o);
 
@@ -393,12 +392,10 @@ void main(){
   printf("\n");
   
   exit(1);
-
   
   
   for(i=0;i<O;i++)
     inv_X[x[0][i]]=i;
-
   
   for(i=0;i<O;i++){
     A[i]=x[0][i];
@@ -424,13 +421,12 @@ void main(){
  
   table(W);
   beki(a);
-
   printf("\nkotae=\n");
   for(i=0;i<O;i++)
     printf("%d,",W[i]);
   printf("\n");
-
   return;
   
 }
 */
+
