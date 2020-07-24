@@ -362,8 +362,17 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
   srand(111);
   //printf("in enc\n");
 
-  for(i=0;i<NN;i++)
+  for(i=0;i<NN;i++){
     aaa.d[i]=rand()%256;
+    if(aaa.d[0]==0){
+      printf("baka\n");
+      exit(1);
+	}
+  }
+  	if(aaa.u[0]==0){
+	  printf("baka\n");
+	  exit(1);
+	}
   //デバッグ中なので省略
   for (i = 0; i < 32; i++)
     //f[i] ^= salt[i];
@@ -400,27 +409,44 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 	}
 	*/
       //round
+	memcpy(aaa.d,kkk,sizeof(unsigned char)*NN);
+	if(aaa.u[0]==0){
+	  printf("oobaka\n");
+	  exit(1);
+	}
+	//exit(1);
       for(k=0;k<9;k++){
 
 	
 	//平文バッファを共用体にコピー
-	memcpy(bbb.d,f,sizeof(unsigned char)*32);
-	//for(i=0;i<4;i++){
-	  //f[i]^=ROTL8(kkk[i],i%8);
-
+	//memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	
+	//exit(1);
+	  
 	//サブキーのつもり
+	for(i=0;i<NN;i++){
+	  f[i]^=i+100;//ROTL8(kkk[i],i%8);
+	  
+	  printf("baka %d %d\n",bbb.d[i],i);
+	  
+	}
+	/*
 	//秘密鍵から生成されたサブキーを計算して平文バッファにy0OR
 	aaa.u[1]^=ROTL64(aaa.u[0],i*3);
 	aaa.u[3]+=ROTL64(aaa.u[1],i*5);
 	aaa.u[2]&=ROTL64(aaa.u[2],i*7);
 	aaa.u[0]=ROTL64(aaa.u[3],i*11);
-
+	if(aaa.u[0]==0){
+	  printf("baka\n");
+	  exit(1);
+	}
 	bbb.u[0]^=aaa.u[0];
 	bbb.u[1]^=aaa.u[1];
 	bbb.u[2]^=aaa.u[2];
 	bbb.u[3]^=aaa.u[3];
 
 	memcpy(f,bbb.d,sizeof(unsigned char)*32);
+	  */
 	/*
 	for(i=0;i<NN;i++){
 	  //  f[i]^=ROTL8(kkk[i],i%8);
@@ -591,14 +617,22 @@ arrayA
 	
 	
 	//サブキーのつもり(roundに入っているから？)
-	memcpy(bbb.d,f,sizeof(unsigned char)*32);
-	//for(i=0;i<4;i++){
-	  //f[i]^=ROTL8(kkk[i],i%8);
+	for(i=0;i<NN;i++)
+	  f[i]^=i+100;//ROTL8(kkk[i],i%8);
+
+	//memcpy(bbb.d,f,sizeof(unsigned char)*32);
+	//for(i=0;i<32;i++){
+	//bbb.d[i]^=10;//ROTL8(kkk[i],i%8);
+	//}
+	/*
 	aaa.u[1]^=ROTL64(aaa.u[0],i*3);
 	aaa.u[3]+=ROTL64(aaa.u[1],i*5);
 	aaa.u[2]&=ROTL64(aaa.u[2],i*7);
 	aaa.u[0]=ROTL64(aaa.u[3],i*11);
-
+	if(aaa.u[0]==0){
+	  printf("baka\n");
+	  exit(1);
+	}
 	bbb.u[0]^=aaa.u[0];
 	bbb.u[1]^=aaa.u[1];
 	bbb.u[2]^=aaa.u[2];
@@ -607,11 +641,11 @@ arrayA
 	  //}
 	memcpy(f,bbb.d,sizeof(unsigned char)*32);
 	//printf("%llu baka\n",bbb.u[0]);
+	*/
+
       }
       //printf("\n\n");
       /*
-	for(i=0;i<NN;i++){
-	  f[i]^=ROTL8(kkk[i],i%8);
 	  //f[i]^=ROTL8(aaa.d[i],i%8);
 	}
       */  
