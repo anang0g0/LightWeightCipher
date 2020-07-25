@@ -432,7 +432,6 @@ enc (unsigned char b[2048],unsigned char key[32],unsigned char y0[32], unsigned 
 	  //a=ROTL8(kkk[i],3);
 	  f[i]^=i+aaa.d[i];
 	  //kkk[i]=a;
-
 	  // kkk[i]=a;
 	  printf("baka %d %d\n",aaa.d[i],i);
 	  
@@ -640,7 +639,6 @@ arrayA
 	  //a=ROTL8(kkk[i],3);
 	  f[i]^=i+aaa.d[i];
 	  //kkk[i]=a;
-
 	  //kkk[i]=a;
 	  printf("kaba %d %d\n",aaa.d[i],i);
 	}
@@ -802,7 +800,7 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 	  for(j=0;j<n;j++)
 	    printf("%02x",a.c[j]);
 	  printf("\n");  
-	
+	  */
 	  printf("test2\n");
 	  for(i=0;i<NN;i++)
 	    printf("%d,",y0[i]);
@@ -810,14 +808,13 @@ hash (int argc, char *argv[],unsigned char y0[32],unsigned char y1[32])
 	  for(i=0;i<NN;i++)
 	    printf("%d,",y1[i]);
 	  printf("\n");
-
 	  srand(111);
 	  b=dec(a.c,key,y0);
       	  for(j=0;j<n;j++)
 	  printf("%c",b.c[j]);
 	  printf("\n");
 	  // exit(1);
-	  */    
+	   
 	  n = 0;
 	}
     }
