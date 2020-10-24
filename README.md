@@ -8,6 +8,9 @@ Hash関数を使ったPRNG：http://ijcee.org/papers/439-JE503.pdf
 
 秘密鍵McEliece暗号？：https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.378.9571&rep=rep1&type=pdf
 
+# 20201024
+
+ここでやるのはRao-Numの焼き直しであるPACEをもってLWCの代わりとします。
 
 # 20201009
 
