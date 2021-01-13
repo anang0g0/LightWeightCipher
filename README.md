@@ -1,5 +1,11 @@
 # LowWeightCipher(Serpenters)
 
+# 修士論文補完計画
+
+訂正不可能なエラーを入れた時にできる復号結果は決定不可能だが、秘密鍵を持っている人だけが暗号文を正しく復号できるというタイプの暗号。
+
+---
+
 パイコネ変換：https://ja.wikipedia.org/wiki/%E3%83%91%E3%82%A4%E3%81%93%E3%81%AD%E5%A4%89%E6%8F%9B
 
 符号を使った疑似乱数生成；https://www.di.ens.fr/~stern/data/St58.pdf
