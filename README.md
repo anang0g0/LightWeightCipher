@@ -1,4 +1,4 @@
-# LowWeightCipher(Serpenters)
+# LowWeightCipher(I believe that P=NP.)
 
 # 修士論文補完計画
 
