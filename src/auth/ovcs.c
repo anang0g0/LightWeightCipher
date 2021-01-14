@@ -858,14 +858,12 @@ typedef union uni {
   unsigned short ss[8];
   unsigned char m[16];
 } on;
-//on c1={0xffffffffffffffff,0xffffffffffffffff};
-//on c2={0x1111111111111111,0xdddddddddddddddd};
-//on u={111111222222,333333444444};
+
 typedef unsigned long long int ull;
 typedef unsigned char uc;
 ull ff,f,g[256][2],G[16][16][2],c3[4],g2[256][2];
 unsigned int f2=0xffffffff;
-on c1,c2,u,u1,GG,H;
+on c1={0},c2={0},u,u1,GG,H;
 unsigned char e[32],r[256],s[256],x[256],y[256];
 unsigned char e1[16][16];
 unsigned char e2[16][16];
@@ -1196,8 +1194,8 @@ int i=0;
 void co(int argc,char *argv[]){
 
   int sum=0;
-char *key1="‚ ‚Á‚Ó‚ñ‚ ‚©‚ñ‚Ä";
-char *key2="ƒ^ƒƒTƒŒƒ‹ƒ_ƒCƒ`";
+char *key1="ï¿½ï¿½ï¿½ï¿½ï¿½Ó‚ñ‚ ‚ï¿½ï¿½ï¿½ï¿½";
+char *key2="ï¿½^ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Cï¿½`";
 int j=0,i=0,k=0,fd,read_size;
   unsigned char o[16]={0},p[16]={0};
 FILE *fp,*fq;
@@ -1363,7 +1361,12 @@ void ot(){
   unsigned char u[256]={0},v[256]={0},c[256]={0},xx[256]={0},yy[256]={0},d[256]={0},a[16],b[16];
 int i,j,k,l,n,count;
 
-  srand(c1.cc[2]);
+  //srand(c1.cc[2]);
+
+  for(i=0;i<16;i++){
+  c1.m[i]=rand()%256;
+  c2.m[i]=rand()%256;
+  }
   n=rand()%20;
   for(i=0;i<16;i++){
     a[i]=c1.m[i];
@@ -1562,24 +1565,24 @@ count=0;
 
 int main(void){
 int sum=0;
-char *key1="‚ ‚Á‚Ó‚ñ‚ ‚©‚ñ‚Ä";
-char *key2="ƒ^ƒƒTƒŒƒ‹ƒ_ƒCƒ`";
+char *key1="ï¿½ï¿½ï¿½ï¿½ï¿½Ó‚ñ‚ ‚ï¿½ï¿½ï¿½ï¿½";
+char *key2="ï¿½^ï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½Cï¿½`";
 int j=0,i=0,k=0,fd,read_size;
   unsigned char  count=0,count2=0,o[16]={0},p[16]={0};
 FILE *fp,*fq;
 int l,ll;
 unsigned short m;
 char fin[80],fout[80];
-  
+time_t t;  
   __m128i *pa = (__m128i*)a; __m128i *pb = (__m128i*)b; __m128i *pc = (__m128i*)c; 
   __m128i *pd1= (__m128i*)d1;__m128i *pd2= (__m128i*)d2;__m128i *pbuf=(__m128i*)buf;
   __m128i *pbuf2=(__m128i*)buf2;
   __m128i va, vb, vc, vd1, vd2; 
   
 
-  
+
 //  hash(argv[3]);
-  srand(c2.cc[0]);
+  srand(clock()+time(&t));
   for(i=0;i<256;i++){
     r[i]=rand()%N;
     s[i]=rand()%N;
