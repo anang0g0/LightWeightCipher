@@ -1,4 +1,4 @@
-# LowWeightCipher
+# LowWeightCipher（P=NPだった時のための何か）
 
 # 修士論文補完計画（脳内ダンプ）
 
