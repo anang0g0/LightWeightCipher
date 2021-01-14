@@ -46,8 +46,10 @@ int main(){
     unsigned char u[N]; //public
     int ss[N]={0},r[N]={0},z[N]={0},e[N],e2[N],xx[N]={0};
     int v[N]={0};
-    unsigned long long int l[N]={0},m[N]={0},n[N]={0};
-    srand(clock());
+    unsigned int l[N]={0},m[N]={0},n[N]={0};
+    time_t tt;
+
+    srand(clock()+time(&tt));
 
     //頂点の値ssはすべて異なるものとする
     for(i=0;i<N;i++){
@@ -55,8 +57,6 @@ int main(){
       e2[i]=xx[i]=rand()%256;
       printf("%d,%d %d,%d\n",e[i],ss[i],e2[i],xx[i]);
     }
-
-   // exit(1);
 
 
       rp(u); //public
@@ -69,7 +69,7 @@ v[i]=e[i]^e2[i];
     for(i=0;i<N;i++){
       t[i]=(ss[i]^ss[(i+1)%N]);
     }
-    printf("%llu,",l[j]);
+
     for(i=0;i<N;i++)
       r[i]=ss[u[i]];
 
@@ -80,7 +80,7 @@ printf("\n");
     for(i=0;i<N;i++){
       t2[i]=(xx[i]^xx[(i+1)%N]);
     }
-    printf("%llu,",m[j]);
+
     for(i=0;i<N;i++)
       r[i]=xx[u[i]];
 
@@ -91,7 +91,7 @@ printf("\n");
     for(i=0;i<N;i++)
       z[i]=(v[i]^v[(i+1)%N]);      
     
-    printf("%llu,",n[j]);
+
     for(i=0;i<N;i++)
       r[i]=v[u[i]];
 
@@ -107,7 +107,7 @@ for(i=0;i<N;i++){
 
 }
 for(i=0;i<N;i++)
-printf("%llu,%llu\n",l[i],n[i]);
+printf("%u,%u\n",l[i],n[i]);
 printf("\n\n");
 
 
