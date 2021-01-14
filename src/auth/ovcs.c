@@ -1363,10 +1363,6 @@ int i,j,k,l,n,count;
 
   //srand(c1.cc[2]);
 
-  for(i=0;i<16;i++){
-  c1.m[i]=rand()%256;
-  c2.m[i]=rand()%256;
-  }
   n=rand()%20;
   for(i=0;i<16;i++){
     a[i]=c1.m[i];
@@ -1583,6 +1579,12 @@ time_t t;
 
 //  hash(argv[3]);
   srand(clock()+time(&t));
+
+  for(i=0;i<16;i++){
+    c1.m[i]=rand()%256;
+    c2.m[i]=rand()%256;
+  }
+
   for(i=0;i<256;i++){
     r[i]=rand()%N;
     s[i]=rand()%N;
