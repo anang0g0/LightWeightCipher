@@ -18,7 +18,7 @@ Modified Rao-Nam Scheme:M-PACE（これもなんか違うような気がして�
 
 参考文献：Oblivious Verification of Common String
 
-https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=CB23E5E49C4FB077D28BF70DA6F688A3?doi=10.1.1.17.9227&rep=rep1&type=pdf
+https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=CB23E5E49C4FB077D28BF70DA6F688A3
 
 今日やろうとしたことは巡回セールスマン問題を応用した認証だったのが、論じる以前に計算で失敗したのであてが外れてゴミになった。
 もしかしたら数値じゃなくて、閉路グラフの頂点重みを異なる文字や行列でやれば成功するのかもしれないけど、それはまだやっていない。
