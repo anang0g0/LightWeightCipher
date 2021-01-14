@@ -6,7 +6,7 @@
 
 訂正不可能なエラーを入れた時にできる復号結果は決定不可能だ（別の符号語かもしれない）が、秘密鍵を持っている人だけが暗号文を正しく復号できるというタイプの暗号。
 
-Modified Rao-Num Scheme:M-PACE
+Modified Rao-Nam Scheme:M-PACE
 
 ---
 
