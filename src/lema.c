@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////
 //
-// (over finite field) Gauss-Jordan法による逆行列
+// (lema-mathod)
 //
 
 #include <stdio.h>
@@ -48,7 +48,7 @@ int main(){
     unsigned char u[N],u2[N],inv_u[N];
     unsigned char ss[N]={0},r[N]={0},z[N];
 
-    srand(clock());
+    //srand(clock());
 
     //頂点の値ssはすべて異なるものとする
     for(i=0;i<N;i++)
