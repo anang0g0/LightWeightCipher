@@ -2,15 +2,22 @@
 
 # 修士論文補完計画
 
-# 20210114
-
 訂正不可能なエラーを入れた時にできる復号結果は決定不可能だ（別の符号語かもしれない）が、秘密鍵を持っている人だけが暗号文を正しく復号できるというタイプの暗号。
 
 Modified Rao-Nam Scheme:M-PACE
 
+# 20210114
+
 はるか昔にやった自作コミットメント(ovcs.c,logcom.c)をアップ。
 
 理論的詳細は後日説明しますが、自分でも何をどうやったのか覚えてない。
+
+おそらく下記論文の内容を符号を使ったものに読み替えたのだろう。
+今よりはるかにおぞましいコードを見ることになるだろうｗ。
+
+参考文献：Oblivious Verification of Common String
+
+https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=CB23E5E49C4FB077D28BF70DA6F688A3?doi=10.1.1.17.9227&rep=rep1&type=pdf
 
 ---
 
