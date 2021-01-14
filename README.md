@@ -13,7 +13,6 @@ Modified Rao-Nam Scheme:M-PACE
 理論的詳細は後日説明しますが、自分でも何をどうやったのか覚えてない。
 
 おそらく下記論文の内容を符号を使ったものに読み替えたのだろう。
-今よりはるかにおぞましいコードを見ることになるだろうｗ。
 
 参考文献：Oblivious Verification of Common String
 
