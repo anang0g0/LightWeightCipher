@@ -43,16 +43,17 @@
 int main(){
   
     int i,j;
-    unsigned int t[N]={0};
+    unsigned short t[N]={0};
     double b[4],k=0;
     unsigned char u[N],u2[N],inv_u[N];
-    unsigned char ss[N]={0},r[N],z[N];
+    unsigned char ss[N]={0},r[N]={0},z[N];
 
-    //srand(clock());
-  
+    srand(clock());
+
+    //頂点の値ssはすべて異なるものとする
     for(i=0;i<N;i++)
-      ss[i]=rand()%N;
-
+      ss[i]=i;
+  
       rp(u);
       rp(u2);
       for(i=0;i<N;i++)
@@ -65,7 +66,7 @@ for(j=0;j<N;j++){
       r[i]=ss[u2[i]];
     for(i=0;i<N;i++)
       z[i]=u[u2[inv_u[i]]];
-      memcpy(u,z,sizeof(u));
+      memcpy(u2,z,sizeof(u));
       memcpy(ss,r,sizeof(ss));
 }
 for(i=0;i<N;i++)
