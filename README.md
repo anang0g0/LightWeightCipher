@@ -12,6 +12,10 @@ Modified Rao-Nam Scheme:M-PACE
 
 理論的詳細は後日説明しますが、自分でも何をどうやったのか覚えてない。
 
+参考文献：Oblivious Verification of Common String
+
+https://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=CB23E5E49C4FB077D28BF70DA6F688A3?doi=10.1.1.17.9227&rep=rep1&type=pdf
+
 ---
 
 パイコネ変換：https://ja.wikipedia.org/wiki/%E3%83%91%E3%82%A4%E3%81%93%E3%81%AD%E5%A4%89%E6%8F%9B
