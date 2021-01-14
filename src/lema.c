@@ -8,7 +8,6 @@
 #include <time.h>
 #include <string.h>
 
-#define MAXN 4
 #define N 32 //order of GF(q)
 
 
@@ -61,7 +60,7 @@ int main(){
 
 for(j=0;j<N;j++){
     for(i=0;i<N;i++)
-      t[j]+=abs(ss[i]-ss[(i+1)%N]);
+      t[j]+=ss[i]^ss[(i+1)%N];
     for(i=0;i<N;i++)
       r[i]=ss[u2[i]];
     for(i=0;i<N;i++)
