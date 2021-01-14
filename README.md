@@ -8,6 +8,10 @@
 
 Modified Rao-Nam Scheme:M-PACE
 
+はるか昔にやった自作コミットメント(ovcs.c,logcom.c)をアップ。
+
+理論的詳細は後日説明しますが、自分でも何をどうやったのか覚えてない。
+
 ---
 
 パイコネ変換：https://ja.wikipedia.org/wiki/%E3%83%91%E3%82%A4%E3%81%93%E3%81%AD%E5%A4%89%E6%8F%9B
