@@ -43,7 +43,6 @@ int main(){
   
     int i,j;
     unsigned short t[N]={0};
-    double b[4],k=0;
     unsigned char u[N],u2[N],inv_u[N];
     unsigned char ss[N]={0},r[N]={0},z[N];
 
