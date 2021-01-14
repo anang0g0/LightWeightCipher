@@ -61,10 +61,14 @@ int main(){
 
       rp(u); //public
 
-  //for(j=0;j<N;j++){
+for(i=0;i<N;i++)
+v[i]=e[i]^e2[i];
+
+
+  for(j=0;j<N;j++){
     for(i=0;i<N;i++){
-      t[i]+=(ss[i]^ss[(i+1)%N]);
-      l[j]^=t[i];
+      t[i]=(ss[i]^ss[(i+1)%N]);
+      //l[j]+=t[i];
     }
     printf("%llu,",l[j]);
     for(i=0;i<N;i++)
@@ -81,31 +85,23 @@ printf("\n");
 
 //for(j=0;j<N;j++){
     for(i=0;i<N;i++){
-      t2[i]+=(xx[i]^xx[(i+1)%N]);
-      m[j]^=t2[i];
+      t2[i]=(xx[i]^xx[(i+1)%N]);
+      //m[j]+=t2[i];
     }
     printf("%llu,",m[j]);
     for(i=0;i<N;i++)
       r[i]=xx[u[i]];
 
       memcpy(xx,r,sizeof(xx));
-//}
+
 printf("\n");
 
-//for(i=0;i<N;i++)
-//printf("%u,",t2[i]);
-//printf("\n\n");
 
-//for(i=0;i<N;i++)
-//printf("%d,",u[i]);
-
-for(i=0;i<N;i++)
-v[i]=e[i]^e2[i];
 
 //for(j=0;j<N;j++){
     for(i=0;i<N;i++){
-      z[i]+=(v[i]^v[(i+1)%N]);
-      n[j]^=z[i];
+      z[i]=(v[i]^v[(i+1)%N]);
+      //n[j]+=z[i];
       
     }
     printf("%llu,",n[j]);
@@ -116,8 +112,21 @@ v[i]=e[i]^e2[i];
 //}
 printf("\n\n");
 
+for(i=0;i<N;i++){
+  printf("%d,%d\n",t[i]^t2[i],z[i]);
+  l[j]+=t[i]^t2[i];
+  n[j]+=z[i];
+  }
+
+}
 for(i=0;i<N;i++)
-printf("%d,%d\n",t[i]^t2[i],z[i]);
+printf("%llu,%llu\n",l[i],n[i]);
+printf("\n\n");
+
+//for(i=0;i<N;i++)
+//printf("%d,",u[i]);
+
+
 //abs((t[i]-t2[i])));
 printf("\n\n");
 
