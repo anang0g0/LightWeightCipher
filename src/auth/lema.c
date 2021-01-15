@@ -98,6 +98,19 @@ printf("\n");
       memcpy(v,r,sizeof(v));
 printf("\n\n");
 
+/*
+    for(i=0;i<N;i++)
+      z[j]+=(e[i]^e[(i+1)%N])+(e2[i]^e2[(i+1)%N]);  
+    
+
+    for(i=0;i<N;i++)
+      r[i]=e[u[i]];
+      memcpy(e,r,sizeof(v));
+
+    for(i=0;i<N;i++)
+      r[i]=e2[u[i]];
+      memcpy(e2,r,sizeof(v));
+*/
 
 for(i=0;i<N;i++){
   printf("%d,%d\n",t[i]^t2[i],z[i]);
