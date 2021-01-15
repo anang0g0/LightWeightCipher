@@ -8,7 +8,7 @@
 #include <time.h>
 #include <string.h>
 
-#define N 32 //order of GF(q)
+#define N 16 //order of GF(q)
 
 
  void rp(unsigned char* a) {
@@ -46,15 +46,15 @@ int main(){
     unsigned char u[N]; //public
     int ss[N]={0},r[N]={0},z[N]={0},e[N],e2[N],xx[N]={0};
     int v[N]={0};
-    unsigned int l[N]={0},m[N]={0},n[N]={0};
+    unsigned int l[N]={0},m[N]={0},n[N]={0},ll=0,nn=0;
     time_t tt;
 
     srand(clock()+time(&tt));
 
     //頂点の値ssはすべて異なるものとする
     for(i=0;i<N;i++){
-      e[i]=ss[i]=rand()%256; //secret
-      e2[i]=xx[i]=rand()%256;
+      e[i]=ss[i]=rand()%2; //secret
+      e2[i]=xx[i]=rand()%2;
       printf("%d,%d %d,%d\n",e[i],ss[i],e2[i],xx[i]);
     }
 
@@ -116,12 +116,25 @@ for(i=0;i<N;i++){
   printf("%d,%d\n",t[i]^t2[i],z[i]);
   l[j]+=t[i]^t2[i];
   n[j]+=z[i];
+  l[j]=(l[j]<<1);
+  n[j]=(n[j]<<1);
   }
-
+  
+l[j]=(l[j]>>1);
+n[j]=(n[j]>>1);
+/*
+ll+=l[j];
+nn+=n[j];
+*/
 }
+printf("\n\n");
 for(i=0;i<N;i++)
 printf("%u,%u\n",l[i],n[i]);
 printf("\n\n");
+
+
+//printf("%u,%u\n",ll,nn);
+//printf("\n\n");
 
 
 
