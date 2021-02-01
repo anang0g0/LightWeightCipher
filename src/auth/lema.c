@@ -81,7 +81,7 @@ printf("\n");
       t2[i]=(xx[i]^xx[(i+1)%N]);
     }
 
-    for(i=0;i<N;i++)
+    for(i=0;i<N;i++) 
       r[i]=xx[u[i]];
 
       memcpy(xx,r,sizeof(xx));
@@ -126,7 +126,7 @@ n[j]=(n[j]>>1);
 ll+=l[j];
 nn+=n[j];
 */
-}
+  }
 printf("\n\n");
 for(i=0;i<N;i++)
 printf("%u,%u\n",l[i],n[i]);
