@@ -176,7 +176,7 @@ chash(unsigned char b[2048])
 {
   int i, j = 0;
   arrayn n;
-
+  arrayul v={0};
   unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
 
   unsigned char z[NN];
@@ -202,7 +202,8 @@ chash(unsigned char b[2048])
      printf("%d,",f[i]);
    printf("\n\n");
   */
-
+int count=0;
+while(count<16){
   //バッファを埋める回数だけ回す
   for (j = 0; j < 2048 / NN; j++)
   {
@@ -217,11 +218,19 @@ chash(unsigned char b[2048])
     for (i = 0; i < NN; i++)
     {
       //mode 2(自己書き換え系)
-      f[x1[i]] += abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(f[i], 5));
+      f[z[i]] += abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(f[i], 5))^salt[i];
     }
+  
+  for(i=0;i<NN;i++)
+  v.d[i]=s_box[f[i]];
+  for(i=0;i<8;i++)
+  v.u[i]^=xorshift64(v.u[i]);
+  for(i=0;i<NN;i++)
+  v.d[i]=inv_s_box[v.d[i]];
   }
-
-  memcpy(n.ar, f, sizeof(unsigned char) * NN);
+  count++;
+}
+  memcpy(n.ar, v.d, sizeof(unsigned char) * NN);
 
   return n;
 }
