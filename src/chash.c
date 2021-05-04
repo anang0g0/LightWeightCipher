@@ -62,7 +62,7 @@ arrayn c = {0};
 #define U8V(v) ((unsigned char)(v)&U8C(0xFF))
 #define ROTL8(v, n) \
   (U8V((v) << (n)) | ((v) >> (8 - (n))))
-
+  
 #define R(x,n) (((x) << (n)) | ((x) >> (32-(n))))
 
 unsigned int rotate_left(unsigned int x, int n)
@@ -197,7 +197,7 @@ chash(unsigned char b[2048])
 int count=0;
 
 
-
+while(count<16){
   //バッファを埋める回数だけ回す
   for (j = 0; j < 2048 / NN; j++)
   {
@@ -223,7 +223,7 @@ int count=0;
   v.d[i]=inv_s_box[v.d[i]];
   }
   count++;
-
+}
   memcpy(n.ar, v.d, sizeof(unsigned char) * NN);
 
   return n;
