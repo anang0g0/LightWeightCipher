@@ -180,7 +180,7 @@ chash(unsigned char b[2048])
   arrayn n={0};
   arrayul v={0};
   static const unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
-  char key[]="I love Kazunori Kurosaki or Takeo Matsubara , Kannichi Yamahashi and Fujimoto.";
+  char key[128]="I love Kazunori Kurosaki or Takeo Matsubara , Kannichi Yamahashi and Fujimoto.";
   unsigned char z[NN];
   unsigned char f[NN] = {0};
   unsigned char x0[NN] = {0};
@@ -204,15 +204,18 @@ while(count<16){
     for (i = 0; i < NN; i++)
       z[i] = x0[x1[inv_x[i]]];
 
-    for (i = 0; i < NN; i++)
-      f[i] ^= abs(b[j * NN + i]-xorshift()%256);
+    for (i = 0; i < NN; i++){
+      f[i] ^= abs(b[j * NN + i]-key[i]);
+    key[i]^=inv_s_box[(unsigned char)ROTL8(key[i],3)];
+    }
 
     memcpy(x1, z, sizeof(unsigned char) * NN);
 
     for (i = 0; i < NN; i++)
     {
       //mode 2(自己書き換え系)
-      f[z[i]] +=abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(salt[i], 5))^abs(key[i]);
+      f[z[i]] +=abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(salt[i], 5))^xorshift()%256;
+  
     }
   for(i=0;i<NN;i++)
   v.d[i]=s_box[f[i]];
