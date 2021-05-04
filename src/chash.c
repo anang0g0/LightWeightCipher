@@ -58,19 +58,6 @@ typedef struct pub
 
 arrayn c={0};
 
-unsigned int xor(unsigned int a) {
-  static unsigned int y = 2463534242;
-  y^=a;
-  y = y ^ (y << 13); y = y ^ (y >> 17);
-  return y = y ^ (y << 5);
-}
-
-unsigned long long int xor64(unsigned long long int a) {
-  static unsigned long long int x = 88172645463325252ULL;
-x^=a;
-  x = x ^ (x << 13); x = x ^ (x >> 7);
-  return x = x ^ (x << 17);
-}
 
 #define I8T char
 #define U8C(v) (v##U)
