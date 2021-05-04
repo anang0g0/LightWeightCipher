@@ -2,8 +2,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
-#include <omp.h>
 #include <assert.h>
+#include <stdint.h>
 
 #define N 256
 #define NN 64
@@ -180,15 +180,13 @@ chash(unsigned char b[2048])
   arrayn n={0};
   arrayul v={0};
   static const unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
-  char key[]="私は黒崎一範と藤本と松原建夫と山橋憲一が好きだった！結婚したい。";
+  char key[]="I love Kazunori Kurosaki or Takeo Matsubara , Kannichi Yamahashi and Fujimoto.";
   unsigned char z[NN];
   unsigned char f[NN] = {0};
   unsigned char x0[NN] = {0};
   unsigned char inv_x[NN] = {0};
   unsigned char x1[NN] = {0};
 
-//for(i=0;i<NN;i++)
-//key[i]="";//xorshift()%256;
 
   rp(x0);
   rp(x1);
@@ -207,16 +205,15 @@ while(count<16){
       z[i] = x0[x1[inv_x[i]]];
 
     for (i = 0; i < NN; i++)
-      f[i] ^= b[j * NN + i];
+      f[i] ^= abs(b[j * NN + i]-xorshift()%256);
 
     memcpy(x1, z, sizeof(unsigned char) * NN);
 
     for (i = 0; i < NN; i++)
     {
       //mode 2(自己書き換え系)
-      f[z[i]] += abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(salt[i], 5))^key[i];
+      f[z[i]] +=abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(salt[i], 5))^abs(key[i]);
     }
-  
   for(i=0;i<NN;i++)
   v.d[i]=s_box[f[i]];
   for(i=0;i<8;i++)
@@ -226,7 +223,7 @@ while(count<16){
   }
   count++;
 }
-  memcpy(n.ar, v.d, sizeof(unsigned char) * NN);
+  memcpy(n.ar, v.d, sizeof(v.d));
 
   return n;
 }
@@ -249,21 +246,25 @@ hash(char *filename)
     exit(1);
   }
 
-  while ((n = fread(buf, 1, 2048, fp)) > 0)
+  while ((n = fread(buf, 1, 2048, fp)) >= 0)
   {
     //paddaing
     if (n < 2048)
     {
-      for (i = n; i < 2048; i++)
+      for (i = n; i < 2048; i++){
         buf[i] = 0xc6;
+        //printf("%d,",buf[i]);
+      }
     }
-
+//printf("\n");
     a = chash(buf);
     for (k = 0; k < NN / 64; k++)
     {
       for (i = 64 / 4 * k; i < 64 / 4 * k + 64 / 4; i++)
         h.h[i - 64 / 4 * k] ^= a.d[i];
     }
+    if(n==0)
+    break;
   }
 
   return h;
@@ -293,6 +294,7 @@ int main(int argc, char *argv[])
   //  srand (clock () + time (&o));
 
   t = hash(argv[1]);
+
   //慎ましくここは256ビットだけ
   for (i = 0; i < 16 ; i++)
     printf("%08x", t.h[i]);
