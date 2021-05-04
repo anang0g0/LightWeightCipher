@@ -58,14 +58,16 @@ typedef struct pub
 
 arrayn c={0};
 
-uint32_t xor(void) {
-  static uint32_t y = 2463534242;
+unsigned int xor(unsigned int a) {
+  static unsigned int y = 2463534242;
+  y^=a;
   y = y ^ (y << 13); y = y ^ (y >> 17);
   return y = y ^ (y << 5);
 }
 
-uint32_t xor64(void) {
-  static uint64_t x = 88172645463325252ULL;
+unsigned long long int xor64(unsigned long long int a) {
+  static unsigned long long int x = 88172645463325252ULL;
+x^=a;
   x = x ^ (x << 13); x = x ^ (x >> 7);
   return x = x ^ (x << 17);
 }
@@ -131,7 +133,7 @@ void rp(unsigned char* a){
 /*
  * S-box transformation table
  */
-static uint8_t s_box[256] = {
+static const unsigned char s_box[256] = {
 	// 0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f
 	0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, // 0
 	0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0, // 1
@@ -153,7 +155,7 @@ static uint8_t s_box[256] = {
 /*
  * Inverse S-box transformation table
  */
-static uint8_t inv_s_box[256] = {
+static const unsigned char inv_s_box[256] = {
 	// 0     1     2     3     4     5     6     7     8     9     a     b     c     d     e     f
 	0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb, // 0
 	0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb, // 1
