@@ -63,6 +63,8 @@ arrayn c = {0};
 #define ROTL8(v, n) \
   (U8V((v) << (n)) | ((v) >> (8 - (n))))
 
+#define R(x,n) (((x) << (n)) | ((x) >> (32-(n))))
+
 unsigned int rotate_left(unsigned int x, int n)
 {
   assert(0 < n && n < 32);
@@ -192,18 +194,10 @@ chash(unsigned char b[2048])
     inv_x[x0[i]] = i;
 
   memset(f, 0, sizeof(f));
-
-  //デバッグ中なので保留
-  //for (i = 0; i < NN; i++)
-  //   f[i] ^= salt[i];
-
-  /*  
-   for(i=0;i<NN;i++)
-     printf("%d,",f[i]);
-   printf("\n\n");
-  */
 int count=0;
-while(count<16){
+
+
+
   //バッファを埋める回数だけ回す
   for (j = 0; j < 2048 / NN; j++)
   {
@@ -229,7 +223,7 @@ while(count<16){
   v.d[i]=inv_s_box[v.d[i]];
   }
   count++;
-}
+
   memcpy(n.ar, v.d, sizeof(unsigned char) * NN);
 
   return n;
@@ -298,7 +292,7 @@ int main(int argc, char *argv[])
 
   t = hash(argv[1]);
   //慎ましくここは256ビットだけ
-  for (i = 0; i < 16 / 2; i++)
+  for (i = 0; i < 16 ; i++)
     printf("%08x", t.h[i]);
   printf(" %s", argv[1]);
   printf("\n");
