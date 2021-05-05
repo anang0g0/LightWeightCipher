@@ -287,7 +287,7 @@ for(i=0;i<NN;i++)
 
 
         //mode 2(自己書き換え系)
-        f[z[j%(NN)]] += (s_box[buf[j] & key[j%NN]]) ^ inv_s_box[ROTL8(f[(j + 1) % NN] | salt[j%NN],3)]; 
+        f[z[j%(NN)]] += (s_box[buf[j] & key[j%NN]]) ^ (inv_s_box[ROTL8(f[(j + 1) % NN] | salt[j%NN],3)]); 
 
       //
       // printf("%d,",f[i]);
