@@ -13,8 +13,8 @@
 
 typedef union
 {
-  unsigned long long int u[8];
-  unsigned char d[64];
+  unsigned long long int u[NN/8];
+  unsigned char d[NN];
 } arrayul;
 
 typedef union
@@ -62,8 +62,8 @@ arrayn c = {0};
 #define U8V(v) ((unsigned char)(v)&U8C(0xFF))
 #define ROTL8(v, n) \
   (U8V((v) << (n)) | ((v) >> (8 - (n))))
-  
-#define R(x,n) (((x) << (n)) | ((x) >> (32-(n))))
+
+#define R(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
 
 unsigned int rotate_left(unsigned int x, int n)
 {
@@ -76,7 +76,7 @@ unsigned int
 xorshift()
 {
   static unsigned int y = 2463534242;
-//  y = u ^ y;
+  //  y = u ^ y;
   y = y ^ (y << 13);
   y = y ^ (y >> 17);
   return y = y ^ (y << 15);
@@ -177,55 +177,55 @@ arrayn
 chash(unsigned char b[2048])
 {
   int i, j = 0;
-  arrayn n={0};
-  arrayul v={0};
+  arrayn n = {0};
+  arrayul v = {0};
   static const unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
-  char key[128]="I love Kazunori Kurosaki or Takeo Matsubara , Kannichi Yamahashi and Fujimoto.";
-  unsigned char z[NN];
+  char key[128] = "I love Kazunori Kurosaki or Takeo Matsubara , Kannichi Yamahashi and Fujimoto.";
+ unsigned char z[NN];
   unsigned char f[NN] = {0};
   unsigned char x0[NN] = {0};
   unsigned char inv_x[NN] = {0};
   unsigned char x1[NN] = {0};
 
-
   rp(x0);
   rp(x1);
 
-  for (i = 0; i < NN; i++)
-    inv_x[x0[i]] = i;
+  //for (i = 0; i < NN; i++)
+  //  inv_x[x0[i]] = i;
+
+  int count = 0;
 
   memset(f, 0, sizeof(f));
-int count=0;
-
-while(count<16){
-  //バッファを埋める回数だけ回す
-  for (j = 0; j < 2048 / NN; j++)
+//  while (count < 4)
   {
-    for (i = 0; i < NN; i++)
-      z[i] = x0[x1[inv_x[i]]];
-
-    for (i = 0; i < NN; i++){
-      f[i] ^= abs(b[j * NN + i]-key[i]);
-    key[i]^=inv_s_box[(unsigned char)ROTL8(key[i],3)];
-    }
-
-    memcpy(x1, z, sizeof(unsigned char) * NN);
-
-    for (i = 0; i < NN; i++)
+    //バッファを埋める回数だけ回す
+      //for (i = 0; i < NN; i++)
+      //  z[i] = x0[x1[inv_x[i]]];
+//#pragma omp parallel for private(f)
+    for(j = 0; j < 2048; j++) //(j = 0; j < 2048 / (NN); j++)
     {
-      //mode 2(自己書き換え系)
-      f[z[i]] +=abs(ROTL8(f[(i + 1) % NN], 3) - ROTL8(salt[i], 5))^xorshift()%256;
-  
+
+      //for (i = 0; i < NN; i++)
+      {
+        //mode 2(自己書き換え系)
+        f[j%(NN)] += (b[j] ^ key[j%NN]) | ROTL8(f[(j + 1) % NN] & salt[j%NN],3); 
+
+      }
+      //memcpy(x1, z, sizeof(z));
+      // printf("%d,",f[i]);
     }
-  for(i=0;i<NN;i++)
-  v.d[i]=s_box[f[i]];
-  for(i=0;i<8;i++)
-  v.u[i]^=xorshift64(v.u[i]);
-  for(i=0;i<NN;i++)
-  v.d[i]=inv_s_box[v.d[i]];
+
+
+    count++;
   }
-  count++;
-}
+    for (i = 0; i < NN; i++)
+      v.d[i] &= s_box[f[i]];
+    for (i = 0; i < 8; i++)
+      v.u[i] ^= xorshift64(v.u[i]);
+    for (i = 0; i < NN; i++)
+      v.d[i] |= inv_s_box[v.d[i]];
+
+
   memcpy(n.ar, v.d, sizeof(v.d));
 
   return n;
@@ -254,20 +254,21 @@ hash(char *filename)
     //paddaing
     if (n < 2048)
     {
-      for (i = n; i < 2048; i++){
+      for (i = n; i < 2048; i++)
+      {
         buf[i] = 0xc6;
         //printf("%d,",buf[i]);
       }
     }
-//printf("\n");
+    //printf("\n");
     a = chash(buf);
     for (k = 0; k < NN / 64; k++)
     {
       for (i = 64 / 4 * k; i < 64 / 4 * k + 64 / 4; i++)
         h.h[i - 64 / 4 * k] ^= a.d[i];
     }
-    if(n==0)
-    break;
+    if (n == 0)
+      break;
   }
 
   return h;
@@ -292,6 +293,7 @@ int main(int argc, char *argv[])
 {
   int i;
   array16 t;
+ // unsigned char u[NN]={0};
   //  time_t o;
 
   //  srand (clock () + time (&o));
@@ -299,7 +301,7 @@ int main(int argc, char *argv[])
   t = hash(argv[1]);
 
   //慎ましくここは256ビットだけ
-  for (i = 0; i < 16 ; i++)
+  for (i = 0; i < 16; i++)
     printf("%08x", t.h[i]);
   printf(" %s", argv[1]);
   printf("\n");
