@@ -180,7 +180,7 @@ chash(unsigned char b[2048])
   arrayn n = {0};
   arrayul v = {0};
   static const unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
-  unsigned char key[64] = {0};
+  unsigned char key[NN] = {0};
  unsigned char z[NN];
   unsigned char x0[NN] = {0};
   unsigned char inv_x[NN] = {0};
@@ -190,7 +190,7 @@ unsigned char tmp[NN]={0};
   rp(x1);
 
   for (i = 0; i < NN; i++){
-  key[i]=i;//salt[i];
+  key[i]=rand()%2;//salt[i];
   inv_x[x0[i]] = i;
   }
   int count = 0;
@@ -203,7 +203,10 @@ unsigned char tmp[NN]={0};
         z[i] = x0[x1[inv_x[i]]];
 
         for(i=0;i<NN;i++)
-        key[i]^=s_box[key[z[i]]];
+        key[i]^=key[z[i]];
+        //for(i=0;i<NN;i++)
+        //printf("%d,",key[i]);
+        //printf("\n");
         //for(i=0;i<NN;i++)
         //key[i]=inv_s_box[key[i]];
         //memcpy(key,tmp,sizeof(key));
@@ -231,7 +234,7 @@ unsigned char tmp[NN]={0};
   }
   
     for (i = 0; i < NN; i++){
-      v.d[i] = inv_s_box[key[i]];
+      v.d[i] = key[i];
       printf("%d,",v.d[i]);
     }
     printf("\n");
@@ -358,17 +361,17 @@ crand(unsigned char u[NN])
 int main(int argc, char *argv[])
 {
   int i;
-  arrayul t;
+  arrayul t={0};
  // unsigned char u[NN]={0};
   //  time_t o;
 
-//while(1){
+while(1){
 t=chash(t.d);
   //慎ましくここは256ビットだけ
-  for (i = 0; i < NN; i++)
-    printf("%02x", t.d[i]);
-    printf("\n");
-//}
+  //for (i = 0; i < NN; i++)
+    //printf("%02x", t.d[i]);
+    //printf("\n");
+}
 
  t = hash(argv[1]);
   for (i = 0; i < NN; i++)
