@@ -275,7 +275,7 @@ for(i=0;i<NN;i++)
       }
     }
     count=0;
-   // while(count<8){
+    //while(count<16){
         //バッファを埋める回数だけ回す
       for (i = 0; i < NN; i++)
         z[i] = x0[x1[inv_x[i]]];
@@ -292,20 +292,23 @@ for(i=0;i<NN;i++)
       //
       // printf("%d,",f[i]);
     }
-    for(i=0;i<NN;i++)
-    key[i]^=inv_s_box[ROTL8(key[i],3)];
+    //for(i=0;i<NN;i++)
+    //key[i]^=inv_s_box[ROTL8(key[i],3)];
     count++;
+//    printf("%d\n",count);
     memcpy(x1, z, sizeof(z));
     //}
     //printf("\n");
     //a = chash(buf);
-      //for (i = 0; i < NN; i++)
-      //v.d[i] &= s_box[f[i]];
+    
+      for (i = 0; i < NN; i++)
+      v.d[i] &= s_box[f[i]];
       for (i = 0; i < 8; i++)
       v.u[i] ^= xorshift64(v.u[i]);
       //for (i = 0; i < NN; i++)
       //v.d[i] |= s_box[v.d[i]];
-      count++;
+      //count++;
+      
     //}
 /*
     for (k = 0; k < NN / 64; k++)
