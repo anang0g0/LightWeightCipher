@@ -197,11 +197,11 @@ chash(unsigned char b[2048])
   int count = 0;
 
   memset(f, 0, sizeof(f));
-//  while (count < 4)
+ while (count < 4)
   {
     //バッファを埋める回数だけ回す
-      //for (i = 0; i < NN; i++)
-      //  z[i] = x0[x1[inv_x[i]]];
+      for (i = 0; i < NN; i++)
+        z[i] = x0[x1[inv_x[i]]];
 //#pragma omp parallel for private(f)
     for(j = 0; j < 2048; j++) //(j = 0; j < 2048 / (NN); j++)
     {
@@ -209,7 +209,7 @@ chash(unsigned char b[2048])
       //for (i = 0; i < NN; i++)
       {
         //mode 2(自己書き換え系)
-        f[j%(NN)] += (b[j] ^ key[j%NN]) | ROTL8(f[(j + 1) % NN] & salt[j%NN],3); 
+        f[z[j%(NN)]] ^= b[j]; //(b[j] ^ key[j%NN]) | ROTL8(f[(j + 1) % NN] & salt[j%NN],3); 
 
       }
       //memcpy(x1, z, sizeof(z));
@@ -233,15 +233,28 @@ chash(unsigned char b[2048])
 }
 
 //ファイル操作
-array16
+arrayul
 hash(char *filename)
 {
-  int i, k, n;
+  int i, k, n,j,count=0;
   array16 h = {0};
-
+  arrayul v={0};
   unsigned char buf[2048] = {0};
   FILE *fp;
   arrayn a = {0};
+  static const unsigned char salt[NN] = {148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
+  unsigned char key[64] = {0};
+ unsigned char z[NN];
+  unsigned char f[NN] = {0};
+  unsigned char x0[NN] = {0};
+  unsigned char inv_x[NN] = {0};
+  unsigned char x1[NN] = {0};
+
+for(i=0;i<NN;i++)
+  key[i]=i+1;
+
+  rp(x0);
+  rp(x1);
 
   fp = fopen(filename, "rb");
   if (fp == NULL)
@@ -261,18 +274,51 @@ hash(char *filename)
         //printf("%d,",buf[i]);
       }
     }
+    count=0;
+   // while(count<8){
+        //バッファを埋める回数だけ回す
+      for (i = 0; i < NN; i++)
+        z[i] = x0[x1[inv_x[i]]];
+
+    for(i=0;i<NN;i++)
+    key[i]^=s_box[ROTL8(key[i],3)];
+    for(j = 0; j < 2048; j++) //(j = 0; j < 2048 / (NN); j++)
+    {
+
+
+        //mode 2(自己書き換え系)
+        f[z[j%(NN)]] += (s_box[buf[j] & key[j%NN]]) ^ inv_s_box[ROTL8(f[(j + 1) % NN] | salt[j%NN],3)]; 
+
+      //
+      // printf("%d,",f[i]);
+    }
+    for(i=0;i<NN;i++)
+    key[i]^=inv_s_box[ROTL8(key[i],3)];
+    count++;
+    memcpy(x1, z, sizeof(z));
+    //}
     //printf("\n");
-    a = chash(buf);
+    //a = chash(buf);
+      //for (i = 0; i < NN; i++)
+      //v.d[i] &= s_box[f[i]];
+      for (i = 0; i < 8; i++)
+      v.u[i] ^= xorshift64(v.u[i]);
+      //for (i = 0; i < NN; i++)
+      //v.d[i] |= s_box[v.d[i]];
+      count++;
+    //}
+/*
     for (k = 0; k < NN / 64; k++)
     {
       for (i = 64 / 4 * k; i < 64 / 4 * k + 64 / 4; i++)
         h.h[i - 64 / 4 * k] ^= a.d[i];
     }
+    */
     if (n == 0)
       break;
   }
 
-  return h;
+  return v;
 }
 
 //蛇足
@@ -293,7 +339,7 @@ crand(unsigned char u[NN])
 int main(int argc, char *argv[])
 {
   int i;
-  array16 t;
+  arrayul t;
  // unsigned char u[NN]={0};
   //  time_t o;
 
@@ -302,8 +348,8 @@ int main(int argc, char *argv[])
   t = hash(argv[1]);
 
   //慎ましくここは256ビットだけ
-  for (i = 0; i < 16; i++)
-    printf("%08x", t.h[i]);
+  for (i = 0; i < NN; i++)
+    printf("%02x", t.d[i]);
   printf(" %s", argv[1]);
   printf("\n");
 
