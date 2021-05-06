@@ -151,6 +151,7 @@ static const unsigned char inv_s_box[256] = {
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d}; // f
 
 
+
 void rp2(unsigned char *a)
 {
   int i, j, x;
@@ -198,32 +199,12 @@ arrayul
 chash()
 {
   int i; //, j = 0;
-  arrayul n = {0};
+//  arrayul n = {0};
   arrayul vw = {0};
-  unsigned char key[NN] = {0}; //{148, 246, 52, 251, 16, 194, 72, 150, 249, 23, 90, 107, 151, 42, 154, 124}; //, 48, 58, 30, 24, 42, 33, 38, 10, 115, 41, 164, 16, 33, 32, 252, 143, 86, 175, 8, 132, 103, 231, 95, 190, 61, 29, 215, 75, 251, 248, 72, 48, 224, 200, 147, 93, 112, 25, 227, 223, 206, 137, 51, 88, 109, 214, 17, 172};
  unsigned char z[NN];
-  unsigned char x0[NN] = {0};
-  unsigned char inv_x[NN] = {0};
-  unsigned char x1[NN] = {0};
-  unsigned char tmp[NN]={0};
-  unsigned short u=0;
-  time_t t;
 
-  rp2(x0);
-  rp2(x1);
-
-  n.x[0]=65535; //(unsigned int)time(&t);
-  n.x[1]=65535; //(unsigned long)clock();
-for(i=0;i<NN;i++)
-key[i]=n.d[i];
-
-  for (i = 0; i < NN; i++)
-  inv_x[x0[i]] = i;
- //key[i]=rand()%2;//salt[i];
-  //key[0]=1;
-
-  
   int count = 0;
+
 
   //memset(f, 0, sizeof(f));
  while (count < 8)
@@ -233,7 +214,7 @@ key[i]=n.d[i];
         z[i] = x0[x1[inv_x[i]]];
 
         for(i=0;i<NN;i++)
-        tmp[i]+=s_box[key[z[i]]];
+        tmp[i]^=s_box[key[z[i]]];
         for(i=0;i<NN;i++){
         key[i]^=inv_s_box[ROTL8(tmp[i],3)];
         //printf("%d,",key[i]);
@@ -244,7 +225,6 @@ key[i]=n.d[i];
     count++;
   }
   
-  int uu=0;
     for (i = 0; i < NN; i++){
       //vw.x[0] ^= key[i];
       //vw.x[0]=(vw.x[0]<<1);
