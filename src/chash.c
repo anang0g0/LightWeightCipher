@@ -202,19 +202,19 @@ chash()
 //  arrayul n = {0};
   arrayul vw = {0};
  unsigned char z[NN];
-
+  unsigned char tmp[NN]={0};
   int count = 0;
 
 
   //memset(f, 0, sizeof(f));
  while (count < 8)
   {
-    //バッファを埋める回数だけ回す
+
       for (i = 0; i < NN; i++)
         z[i] = x0[x1[inv_x[i]]];
 
         for(i=0;i<NN;i++)
-        tmp[i]^=s_box[key[z[i]]];
+        tmp[i]+=s_box[key[z[i]]];
         for(i=0;i<NN;i++){
         key[i]^=inv_s_box[ROTL8(tmp[i],3)];
         //printf("%d,",key[i]);
