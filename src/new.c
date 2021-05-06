@@ -31,6 +31,7 @@ key[i]=n.d[i];
     while(1){
         //i=rand();
         aa=chash();
+        
         for(i=0;i<NN/16;i++){
         print_uint128(aa.z[i]);
         printf(" ");
