@@ -14,7 +14,7 @@
 #define E (8)    //拡大体のビット数
 #define D (256)  //符号長（短縮符号）
 //#define F E *K    //2040
-#define NN 16
+#define NN 32
 
 
 unsigned char tmp[N][E * K] = {0};
