@@ -16,8 +16,10 @@
 //#define F E *K    //2040
 #define NN 32
 
-
-unsigned char tmp[N][E * K] = {0};
+  unsigned char tmp[NN]={0};
+   unsigned char inv_x[NN]={0};
+  unsigned char key[NN] = {0}; 
+//unsigned char tmp[N][E * K] = {0};
 //unsigned char pub[E * K][N] = {0};
 //unsigned char BH[E * K][N] = {0};
 static unsigned short c[E * K + 1] = {0};
