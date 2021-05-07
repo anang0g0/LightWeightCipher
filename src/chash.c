@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -32,8 +33,8 @@ unsigned long xor128(void)
   static unsigned long x = 123456789, y = 362436069, z = 521288629, w = 88675123;
   unsigned long t;
 
-  a = rand();
-  t = x ^ (a << 11);
+  //a = rand();
+  t = x ^ (x << 11);
   a = y;
   y = z;
   z = w;
@@ -155,7 +156,6 @@ static const unsigned char inv_s_box[256] = {
 void rp2(unsigned char *a)
 {
   int i, j, x;
-  time_t t;
 
 //  srand(clock() + time(&t));
 
@@ -194,44 +194,42 @@ int print_uint128(__uint128_t n) {
   return printf("%s", s);
 }
 
+
+static inline uint32_t rotl32(uint32_t x, int n) {
+    // http://blog.regehr.org/archives/1063
+    return x << n | (x >> (-n & 31));
+}
+
+
 //ハッシュ関数本体
-arrayul
-chash()
+void
+chash(arrayul *key)
 {
   int i; //, j = 0;
-//  arrayul n = {0};
-  arrayul vw = {0};
- unsigned char z[NN];
-  unsigned char tmp[NN]={0};
+  unsigned char z[NN];
+  arrayul tmp={0};
   int count = 0;
 
-
-  //memset(f, 0, sizeof(f));
- while (count < 8)
+  
+ while (count < 4)
   {
-
-      for (i = 0; i < NN; i++)
+    for (i = 0; i < NN; i++)
         z[i] = x0[x1[inv_x[i]]];
 
         for(i=0;i<NN;i++)
-        tmp[i]+=s_box[key[z[i]]];
-        for(i=0;i<NN;i++){
-        key[i]^=inv_s_box[ROTL8(tmp[i],3)];
-        //printf("%d,",key[i]);
-        }
-        //printf("\n");
-        memcpy(x1,z,sizeof(x1));
-
+        tmp.d[i]+=s_box[ROTL8(key->d[z[i]],3)];
+        
+        for(i=0;i<NN/16;i++)
+        key->z[i] ^=tmp.z[i];
+        
+        memcpy(x1,z,sizeof(x1));  
+/*
+        for(i=0;i<NN;i++)
+        printf("%d,",key->d[i]);
+        printf("\n");
+  */      
     count++;
   }
-  
-    for (i = 0; i < NN; i++){
-      //vw.x[0] ^= key[i];
-      //vw.x[0]=(vw.x[0]<<1);
-      vw.d[i]=key[i];
-    }
-    //vw.x[0]=(vw.x[0]>>1);
 
-return vw;
 }
 
