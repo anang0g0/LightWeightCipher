@@ -252,14 +252,14 @@ counter++;
     memcpy(xx.t,xvi,sizeof(xx.t));
     
     for (i = 0; i < NN; i++)
-      tmp.d[i] += s_box[ROTL8(key->d[z[i]], 3)];
+      tmp.d[i] = s_box[ROTL8(inv_s_box[key->d[z[i]]], 5)]^xx.d[i];
 
     for (i = 0; i < NN / 16; i++)
-      key->z[i] ^= tmp.z[i] ^ xx.z[i];
+      key->z[i] ^= tmp.z[i] ;
 
     memcpy(x1, z, sizeof(x1));
-
-    count++;
+  if(key->t[0]%2==0)
+    counter2++;
   }
   /*
   for (i = 0; i < NN; i++)
