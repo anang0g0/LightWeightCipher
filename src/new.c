@@ -49,7 +49,7 @@ int main()
         chash(&key);
 
         count++;
-        if (count == 1000000)
+        if (count == 100000)
             break;
     
 
