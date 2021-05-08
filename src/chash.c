@@ -232,7 +232,7 @@ counter++;
   //while (count < 4)
   {
 
-
+/*
  // chacha20 のquorterRound の真似
     for (i = 0; i < 20; i+=2)
     {
@@ -248,9 +248,9 @@ counter++;
 
     }
     memcpy(xx.t,xvi,sizeof(xx.t));
-  
+  */
     for (i = 0; i < NN; i++)
-      tmp.d[i] = s_box[ROTL8(inv_s_box[key->d[z[i]]], 5)]^xx.d[i];
+      tmp.d[i] = s_box[ROTL8(inv_s_box[key->d[z[i]]], 5)]; //^xx.d[i];
 
     for (i = 0; i < NN / 16; i++)
       key->z[i] ^= tmp.z[i] ;
