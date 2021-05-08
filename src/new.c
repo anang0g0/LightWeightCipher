@@ -11,9 +11,19 @@ int main()
     int count = 0, i;
     //time_t t;
 
+    srand(2);
+
     rp2(x0);
     rp2(x1);
-    //exit(1);
+    /*
+    for(i=0;i<NN;i++)
+    printf("%d,",x0[i]);
+    printf("\n");
+    for(i=0;i<NN;i++)
+    printf("%d,",x1[i]);
+    printf("\n");
+    exit(1);
+    */
     memcpy(key.d,salt,sizeof(salt));
     //key.u[0] = 0xdeadbeef; //4567890; //(unsigned int)time(&t);
     //key.u[1] = 0xff11face;        //ff11face; //9876543210; //(unsigned long)clock();
@@ -49,7 +59,7 @@ int main()
         chash(&key);
 
         count++;
-        if (count == 100000000)
+        if (count == 10000000)
             break;
     
 /*
