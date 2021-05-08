@@ -49,9 +49,9 @@ int main()
         chash(&key);
 
         count++;
-        if (count == 10000000)
+        if (count == 1000000)
             break;
-    }
+    
 
     for (i = 0; i < NN / 16; i++)
     {
@@ -59,6 +59,15 @@ int main()
         printf(" ");
     }
     printf("\n");
+
+    }
+    for (i = 0; i < NN / 16; i++)
+    {
+        print_uint128(key.z[i]);
+        printf(" ");
+    }
+    printf("\n");
+    printf("counter2=%d\n",counter2);
 
     return 0;
 }
