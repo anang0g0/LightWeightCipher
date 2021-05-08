@@ -17,8 +17,9 @@
 #define NN 64
 
 
+unsigned int counter=0;
 unsigned char inv_x[NN]={0};
- 
+unsigned char z[NN]; 
 //unsigned char tmp[N][E * K] = {0};
 //unsigned char pub[E * K][N] = {0};
 //unsigned char BH[E * K][N] = {0};
