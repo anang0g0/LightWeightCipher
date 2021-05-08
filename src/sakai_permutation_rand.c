@@ -33,7 +33,7 @@ unsigned long long int toInt(unsigned char * a){
 		s *= 2;
 		ret << 1;
 	}
-	ret >>= 1;
+	ret >> 1;
 	return ret;
 }
 
