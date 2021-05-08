@@ -18,6 +18,7 @@
 
 
 unsigned int counter=0;
+unsigned int counter2=0;
 unsigned char inv_x[NN]={0};
 unsigned char z[NN]; 
 //unsigned char tmp[N][E * K] = {0};
