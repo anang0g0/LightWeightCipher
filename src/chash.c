@@ -152,6 +152,7 @@ static const unsigned char inv_s_box[256] = {
 
 arrayul nonce = {0};
 
+
 void rp2(unsigned char *a)
 {
   int i, j, x;
@@ -229,7 +230,7 @@ void chash(arrayul *key)
                   counter,nonce.t[5],nonce.t[6],nonce.t[7]
                   }; 
 counter++;
- // while (count < 3)
+  //while (count < 3)
   {
         for (i = 0; i < NN; i++)
             z[i] = x0[x1[inv_x[i]]];
@@ -258,19 +259,19 @@ counter++;
 
      memcpy(tmp.d,key->d,sizeof(tmp.d));
     for (i = 0; i < NN; i++)
-      key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)^ROTL8(inv_s_box[tmp.d[i]],i%8);
-      //s_box[ROTL8(tmp.d[z[i]],i%8)]; //^xx.d[i];
-      //
+   key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
+    //key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
+
 
      for(i=0;i<NN/4;i++)
-     key->t[i]=rotl32(key->t[i],18);
+     key->t[i]^=rotl32(key->t[i],18);
 
   count++;
     memcpy(x1, z, sizeof(x1));
 
   }
   
-  if(key->z[0]%2==0)
+  if(key->z[1]%2==0)
     counter2++;
 
 }
