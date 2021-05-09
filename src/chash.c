@@ -253,7 +253,8 @@ counter++;
  xx.t[i]=xvi[i];
  //   memcpy(xx.t,xvi,sizeof(int)*16);
   */ 
-
+//printf("key %lld %lld",key->t[0],key->t[1]);
+//exit(1);
 
      memcpy(tmp.d,key->d,sizeof(tmp.d));
     for (i = 0; i < NN; i++)
