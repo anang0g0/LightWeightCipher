@@ -27,10 +27,10 @@ int main()
    //for(i=0;i<NN;i++)
    //salt[i]=rand()%256;
     //memcpy(key.d,salt,sizeof(salt));
-    //key.u[0] = (unsigned int)time(&t);
-    //key.u[1] = (unsigned long)clock();
-    for(i=0;i<NN;i++)
-    key.d[i]=0;
+    key.u[0] = (unsigned int)time(&t);
+    key.u[1] = (unsigned long)clock();
+    //for(i=0;i<NN;i++)
+    //key.d[i]=0;
     printf("%lld, %lld\n", key.u[0], key.u[1]);
     nonce.u[0]=0; //0x1234567890abcdef;
     
