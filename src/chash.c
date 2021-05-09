@@ -254,7 +254,7 @@ counter++;
   
      memcpy(tmp.d,key->d,sizeof(tmp.d));
     for (i = 0; i < NN; i++)
-      key->d[i] += s_box[tmp.d[z[i]]]; //^xx.d[i];
+      key->d[i] ^= s_box[tmp.d[z[i]]]; //^xx.d[i];
       //s_box[ROTL8(inv_s_box[tmp.d[z[i]]], 5)^tmp.d[i]]; //^xx.d[i];
      for(i=0;i<NN/4;i++)
      key->t[i]=rotl32(key->t[i],18);
