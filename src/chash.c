@@ -229,7 +229,7 @@ void chash(arrayul *key)
                   counter,nonce.t[5],nonce.t[6],nonce.t[7]
                   }; 
 counter++;
-  //while (count < 3)
+ // while (count < 3)
   {
         for (i = 0; i < NN; i++)
             z[i] = x0[x1[inv_x[i]]];
@@ -249,13 +249,15 @@ counter++;
         chacha20_quarterround(xvi, 3, 4,  9, 14);
 
     }
-    memcpy(xx.t,xvi,sizeof(xx.t));
-  */  
+ for(i=0;i<16;i++)
+ xx.t[i]=xvi[i];
+ //   memcpy(xx.t,xvi,sizeof(int)*16);
+  */ 
 
 
      memcpy(tmp.d,key->d,sizeof(tmp.d));
     for (i = 0; i < NN; i++)
-      key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
+      key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)^ROTL8(inv_s_box[tmp.d[i]],i%8);
       //s_box[ROTL8(tmp.d[z[i]],i%8)]; //^xx.d[i];
       //
 
