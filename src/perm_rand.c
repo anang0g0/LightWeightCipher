@@ -137,7 +137,7 @@ memcpy(a.d,salt,sizeof(salt));
     for(i=0;i<N/4;i++)
       a.t[i]=rotl32(a.t[i],18);
 
-    if (a.t[0] % 2 == 0)
+    if (a.z[0] % 2 == 0)
       cnt++;
 
     for (i = 0; i < N; i++)
