@@ -229,7 +229,7 @@ void chash(arrayul *key)
                   counter,nonce.t[5],nonce.t[6],nonce.t[7]
                   }; 
 counter++;
-  while (count < 3)
+  //while (count < 3)
   {
         for (i = 0; i < NN; i++)
             z[i] = x0[x1[inv_x[i]]];
@@ -255,7 +255,7 @@ counter++;
 
      memcpy(tmp.d,key->d,sizeof(tmp.d));
     for (i = 0; i < NN; i++)
-      key->d[i] ^= s_box[tmp.d[z[i]]]^inv_s_box[ROTL8(tmp.d[i],i%8)];
+      key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
       //s_box[ROTL8(tmp.d[z[i]],i%8)]; //^xx.d[i];
       //
 
