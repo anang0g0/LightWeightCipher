@@ -8,7 +8,7 @@ int main()
 {
     arrayul key={0}; 
     unsigned char salt[NN]={0};//{0,166,108,148,136,242,113,68,172,152,19,72,49,199,89,13,23,210,214,187,77,68,204,4,150,239,243,60,165,236,121,206,226,180,26,143,162,169,124,58,94,148,232,95,227,204,18,170,34,249,221,20,138,84,147,71,131,190,225,166,114,133,31,252};
-    int count = 0, i;
+    int count = 0, i,j;
     time_t t;
 
     srand(time(&t));
@@ -30,7 +30,7 @@ int main()
     //key.u[0] = (unsigned int)time(&t);
     //key.u[1] = (unsigned long)clock();
     for(i=0;i<NN;i++)
-    key.d[i]=83;
+    key.d[i]=0;
     printf("%lld, %lld\n", key.u[0], key.u[1]);
     nonce.u[0]=0; //0x1234567890abcdef;
     
@@ -43,15 +43,18 @@ int main()
 
     for (i = 0; i < NN; i++)
         inv_x[x0[i]] = i;
-/*
-    for (i = 0; i < 8; i++)
+
+//  最初の4ループを捨てる
+    for (i = 0; i < 4; i++)
     {
         chash(&key);
-    }
-    for (i = 0; i < NN; i++)
-        printf("%d,", key.d[i]);
+
+    for (j = 0; j < NN; j++)
+        printf("%d,", key.d[j]);
     printf("\n");
-*/
+
+    }
+
     //exit(1);
 
     while (1)
