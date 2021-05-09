@@ -250,13 +250,15 @@ counter++;
 
     }
     memcpy(xx.t,xvi,sizeof(xx.t));
-  */
+    */
+  
      memcpy(tmp.d,key->d,sizeof(tmp.d));
-       for(i=0;i<NN/4;i++)
-     tmp.t[i]=rotl32(tmp.t[i],11);
     for (i = 0; i < NN; i++)
-      key->d[i] += s_box[ROTL8(inv_s_box[tmp.d[z[i]]], 5)^tmp.d[i]]; //^xx.d[i];
-
+      key->d[i] += s_box[tmp.d[z[i]]]; //^xx.d[i];
+      //s_box[ROTL8(inv_s_box[tmp.d[z[i]]], 5)^tmp.d[i]]; //^xx.d[i];
+     for(i=0;i<NN/4;i++)
+     key->t[i]=rotl32(key->t[i],18);
+  
   count++;
     memcpy(x1, z, sizeof(x1));
   }
