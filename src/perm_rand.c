@@ -157,7 +157,7 @@ int main()
   time_t t;
   int i,n;
 
-  srand(clock() + time(&t));
+  //srand(clock() + time(&t));
   //初期化しないとひどいことになる謎
   //srand(2);
 
