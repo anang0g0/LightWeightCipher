@@ -3,8 +3,27 @@
 #include <time.h>
 #include <string.h>
 
-#define N 32
+#define N 64
 #define BIT_VERSION
+
+unsigned int
+xor (void)
+{
+  static unsigned int y = 2463534242;
+  y^=rand();
+  y = y ^ (y << 13);
+  y = y ^ (y >> 17);
+  return y = y ^ (y << 15);
+}
+
+unsigned long long int
+xor64 (void)
+{
+  static unsigned long long int x = 88172645463325252ULL;
+  x = x ^ (x << 13);
+  x = x ^ (x >> 7);
+  return x = x ^ (x << 17);
+}
 
 void random_permutation(unsigned char* a){
 	int i,j,x;
@@ -26,20 +45,27 @@ void random_permutation(unsigned char* a){
 	}
 }
 
+
 unsigned long long int toInt(unsigned char * a){
 	unsigned long long int i = 0, s = 1, ret = 0;
 	for(i=0; i < N; i++){
+			
 		ret += s * a[i];
 		s *= 2;
 		ret << 1;
-	}
-	ret >> 1;
+		}
+		ret >>= 1;
+
 	return ret;
 }
 
 unsigned long long int p_rand(){
 #ifdef BIT_VERSION
 	static unsigned char a[N] = {
+		1,1,1,1,1,1,1,1,
+		1,1,1,1,1,1,1,1,
+		0,0,0,0,0,0,0,0,
+		0,0,0,0,0,0,0,0,
 		1,1,1,1,1,1,1,1,
 		1,1,1,1,1,1,1,1,
 		0,0,0,0,0,0,0,0,
@@ -91,10 +117,11 @@ unsigned long long int p_rand(){
 int main(){ 
 	FILE *fp = fopen("out.txt","wb");  
 	int i,j=0,count=0; 
+	//unsigned char a[4]={0,1,0,1};
 
 	//srand((unsigned int)time(NULL)); 
-
-	while(j<100000){
+	
+	while(j<10000000){
 		unsigned long long int a = p_rand();
 		if(a%2==0)
 		count++;
