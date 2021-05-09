@@ -231,6 +231,8 @@ void chash(arrayul *key)
 counter++;
   //while (count < 4)
   {
+        for (i = 0; i < NN; i++)
+            z[i] = x0[x1[inv_x[i]]];
 
 /*
  // chacha20 のquorterRound の真似
@@ -249,20 +251,16 @@ counter++;
     }
     memcpy(xx.t,xvi,sizeof(xx.t));
   */
+     memcpy(tmp.d,key->d,sizeof(tmp.d));
+       for(i=0;i<NN/4;i++)
+     tmp.t[i]=rotl32(tmp.t[i],11);
     for (i = 0; i < NN; i++)
-      tmp.d[i] = s_box[ROTL8(inv_s_box[key->d[z[i]]], 5)]; //^xx.d[i];
+      key->d[i] += s_box[ROTL8(inv_s_box[tmp.d[z[i]]], 5)^tmp.d[i]]; //^xx.d[i];
 
-    for (i = 0; i < NN / 16; i++)
-      key->z[i] ^= tmp.z[i] ;
-count++;
+  count++;
     memcpy(x1, z, sizeof(x1));
   }
   if(key->z[0]%2==0)
     counter2++;
 
-  /*
-  for (i = 0; i < NN; i++)
-    printf("%d,", key->d[i]);
-  printf("\n");
-  */
 }
