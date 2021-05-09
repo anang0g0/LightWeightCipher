@@ -11,7 +11,7 @@ int main()
     int count = 0, i;
     time_t t;
 
-    srand(time(&t));
+    //srand(time(&t));
 
     rp2(x0);
     rp2(x1);
@@ -57,7 +57,7 @@ int main()
         chash(&key);
 
         count++;
-        if (count == 100000000)
+        if (count == 1000000000)
             break;
     
 /*
