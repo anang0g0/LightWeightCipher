@@ -135,7 +135,7 @@ memcpy(a.d,salt,sizeof(salt));
     for (i = 0; i < N; i++)
       a.d[i] ^= s_box[ww.d[x1[i]]];
     for(i=0;i<N/4;i++)
-      a.t[i]=rotl32(a.t[i],7);
+      a.t[i]=rotl32(a.t[i],8);
 
     if (a.t[0] % 2 == 0)
       cnt++;
