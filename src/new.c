@@ -11,7 +11,7 @@ int main()
     int count = 0, i;
     time_t t;
 
-    //srand(time(&t));
+    srand(time(&t));
 
     rp2(x0);
     rp2(x1);
