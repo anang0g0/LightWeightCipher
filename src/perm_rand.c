@@ -129,13 +129,13 @@ int data()
     x2[x0[i]] = i;
 
 memcpy(a.d,salt,sizeof(salt));
-  while (j < 10000000)
+  while (j < 1000000000)
   {
     memcpy(ww.d,a.d,sizeof(ww.d));
     for (i = 0; i < N; i++)
       a.d[i] ^= s_box[ww.d[x1[i]]];
     for(i=0;i<N/4;i++)
-      a.t[i]=rotl32(a.t[i],8);
+      a.t[i]=rotl32(a.t[i],18);
 
     if (a.t[0] % 2 == 0)
       cnt++;
