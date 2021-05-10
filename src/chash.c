@@ -278,13 +278,19 @@ void chash(arrayul *key)
    //key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
    //tmp.d[i]+=bitswap(tmp.d[i],i,7-i);
    key->d[i] = s_box[tmp.d[z[i]]];
-
+//  printf("%d,",key->d[i]);
     }
-    for(i=0;i<NN;i++)
-   key->d[i]=ROTL8(inv_s_box[key->d[i]],i%8);
-
+   // printf("\n");
+    for(i=0;i<NN/4;i++){
+    key->d[i]=   ROTL8(inv_s_box[ROTL8(key->d[i],i%8)],i%7);
+    key->d[i+16]=ROTL8(inv_s_box[ROTL8(key->d[i+16],i%8)],i%7);
+    key->d[i+32]=ROTL8(inv_s_box[ROTL8(key->d[i+32],i%8)],i%7);
+    key->d[i+48]=ROTL8(inv_s_box[ROTL8(key->d[i+48],i%8)],i%7);
+//printf("%d,",key->d[i]);
+    }
+    //printf("\n");
      for(i=0;i<NN/4;i++){
-     key->t[i]^=rotl32(key->t[i],18);
+     key->t[i]=rotl32(key->t[i],18);
      }
      
   count++;
