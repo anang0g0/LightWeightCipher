@@ -280,11 +280,11 @@ void chash(arrayul *key)
    key->d[i] = s_box[tmp.d[z[i]]];
 
     }
-//    for(i=0;i<NN;i++)
-//   key->d[i]=ROTL8(inv_s_box[tmp.d[i]],i%8);
+    for(i=0;i<NN;i++)
+   key->d[i]=ROTL8(inv_s_box[key->d[i]],i%8);
 
      for(i=0;i<NN/4;i++){
-     key->t[i]=rotl32(key->t[i],18);
+     key->t[i]^=rotl32(key->t[i],18);
      }
      
   count++;
