@@ -277,12 +277,14 @@ void chash(arrayul *key)
     for (i = 0; i < NN; i++){
    //key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
    //tmp.d[i]+=bitswap(tmp.d[i],i,7-i);
-   key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
-    }
+   key->d[i] = s_box[tmp.d[z[i]]];
 
+    }
+//    for(i=0;i<NN;i++)
+//   key->d[i]=ROTL8(inv_s_box[tmp.d[i]],i%8);
 
      for(i=0;i<NN/4;i++){
-     key->t[i]^=rotl32(key->t[i],18);
+     key->t[i]=rotl32(key->t[i],18);
      }
      
   count++;
