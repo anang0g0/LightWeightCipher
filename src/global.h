@@ -15,7 +15,7 @@
 #define D (256)  //符号長（短縮符号）
 //#define F E *K    //2040
 #define NN 64
-
+#define KK NN/4
 
 unsigned int counter=0;
 unsigned int counter2=0;
