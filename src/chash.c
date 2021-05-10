@@ -198,6 +198,13 @@ int print_uint128(__uint128_t n)
   return printf("%s", s);
 }
 
+static inline void u32t8le(uint32_t v, uint8_t p[4]) {
+    p[0] = v & 0xff;
+    p[1] = (v >> 8) & 0xff;
+    p[2] = (v >> 16) & 0xff;
+    p[3] = (v >> 24) & 0xff;
+}
+
 static inline uint32_t rotl32(uint32_t x, int n)
 {
   // http://blog.regehr.org/archives/1063
@@ -213,16 +220,16 @@ static void chacha20_quarterround(uint32_t *x, int a, int b, int c, int d) {
 }
 
 
+    unsigned char bitswap(unsigned char a, int b1, int b2)
+    {
+        unsigned char c = (a >> b1 ^ a >> b2) & 1;
+        return (c << b1 | c << b2) ^ a;
+    }
 
-//ハッシュ関数本体
-void chash(arrayul *key)
-{
-  int i; //, j = 0;
 
-  arrayul tmp = {0};
-  int count = 0;
-  arrayul xx={0};
-
+void chacha(arrayul *key){
+int i;
+  //arrayul xx={0};
   unsigned int xvi[16]={
                   nonce.t[0],nonce.t[1],nonce.t[2],nonce.t[3],
                   key->t[0],key->t[1],key->t[2],key->t[3],
@@ -230,42 +237,54 @@ void chash(arrayul *key)
                   counter,nonce.t[5],nonce.t[6],nonce.t[7]
                   }; 
 counter++;
-  //while (count < 3)
-  {
-        for (i = 0; i < NN; i++)
-            z[i] = x0[x1[inv_x[i]]];
 
-/*
  // chacha20 のquorterRound の真似
     for (i = 0; i < 20; i+=2)
     {
 
-        chacha20_quarterround(xvi, 0, 4,  8, 12);
-        chacha20_quarterround(xvi, 1, 5,  9, 13);
-        chacha20_quarterround(xvi, 2, 6, 10, 14);
-        chacha20_quarterround(xvi, 3, 7, 11, 15);
-        chacha20_quarterround(xvi, 0, 5, 10, 15);
-        chacha20_quarterround(xvi, 1, 6, 11, 12);
-        chacha20_quarterround(xvi, 2, 7,  8, 13);
-        chacha20_quarterround(xvi, 3, 4,  9, 14);
+        chacha20_quarterround(key->t, 0, 4,  8, 12);
+        chacha20_quarterround(key->t, 1, 5,  9, 13);
+        chacha20_quarterround(key->t, 2, 6, 10, 14);
+        chacha20_quarterround(key->t, 3, 7, 11, 15);
+        chacha20_quarterround(key->t, 0, 5, 10, 15);
+        chacha20_quarterround(key->t, 1, 6, 11, 12);
+        chacha20_quarterround(key->t, 2, 7,  8, 13);
+        chacha20_quarterround(key->t, 3, 4,  9, 14);
 
     }
- for(i=0;i<16;i++)
- xx.t[i]=xvi[i];
- //   memcpy(xx.t,xvi,sizeof(int)*16);
-  */ 
-//printf("key %lld %lld",key->t[0],key->t[1]);
-//exit(1);
+ 
+    //memcpy(xx.t,key->t,sizeof(int)*16);
+  
+
+//return xx;
+}
+//ハッシュ関数本体
+void chash(arrayul *key)
+{
+  int i; //, j = 0;
+
+  arrayul tmp = {0};
+  int count = 0;
+
+
+ // while (count < 2)
+  {
+        for (i = 0; i < NN; i++)
+          z[i] = x0[x1[inv_x[i]]];
 
      memcpy(tmp.d,key->d,sizeof(tmp.d));
-    for (i = 0; i < NN; i++)
-   key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
-    //key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
+
+    for (i = 0; i < NN; i++){
+   //key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
+   //tmp.d[i]+=bitswap(tmp.d[i],i,7-i);
+   key->d[i] ^= s_box[tmp.d[z[i]]]^ROTL8(inv_s_box[tmp.d[i]],i%8);
+    }
 
 
-     for(i=0;i<NN/4;i++)
+     for(i=0;i<NN/4;i++){
      key->t[i]^=rotl32(key->t[i],18);
-
+     }
+     
   count++;
     memcpy(x1, z, sizeof(x1));
 
