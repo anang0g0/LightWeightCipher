@@ -277,10 +277,10 @@ void chash(arrayul *key)
     for (i = 0; i < NN/4; i++){
    //key->d[i] ^= ROTL8(s_box[tmp.d[z[i]]],i%7)+ROTL8(inv_s_box[tmp.d[i]],i%8); // i? (^^;)
    //tmp.d[i]+=bitswap(tmp.d[i],i,7-i);
-    key->d[i]    = s_box[tmp.d[z[i]]];
-    key->d[i+16] = s_box[tmp.d[z[i+16]]];
-    key->d[i+32] = s_box[tmp.d[z[i+32]]];
-    key->d[i+48] = s_box[tmp.d[z[i+48]]];
+    key->d[i]    ^= s_box[tmp.d[z[i]]];
+    key->d[i+16] ^= s_box[tmp.d[z[i+16]]];
+    key->d[i+32] ^= s_box[tmp.d[z[i+32]]];
+    key->d[i+48] ^= s_box[tmp.d[z[i+48]]];
 //  printf("%d,",key->d[i]);
     }
    // printf("\n");
@@ -295,9 +295,9 @@ void chash(arrayul *key)
     }
     
     //printf("\n");
-     //for(i=0;i<NN/4;i++){
-     //key->t[i]=rotl32(key->t[i],18);
-     //}
+     for(i=0;i<NN/4;i++){
+     key->t[i]=rotl32(key->t[i],18);
+     }
      
   count++;
     memcpy(x1, z, sizeof(x1));
