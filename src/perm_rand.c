@@ -120,28 +120,32 @@ int data()
   arrayul a ={0},ww={0}; 
   unsigned char salt[N]={0, 166, 108, 148, 136, 242, 113, 68, 172, 152, 19, 72, 49, 199, 89, 13, 23, 210, 214, 187, 77, 68, 204, 4, 150, 239, 243, 60, 165, 236, 121, 206, 226, 180, 26, 143, 162, 169, 124, 58, 94, 148, 232, 95, 227, 204, 18, 170, 34, 249, 221, 20, 138, 84, 147, 71, 131, 190, 225, 166, 114, 133, 31, 252}; //{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
   unsigned short aa = 0;
-
+  FILE *fp;
   unsigned char z[N];
   unsigned char w[N] = {0};
   unsigned int cnt = 0;
 
+fp=fopen("aaa.dat","wb");
   for (i = 0; i < N; i++)
     x2[x0[i]] = i;
 
+    for (i = 0; i < N; i++)
+      w[i] = x0[x1[x2[i]]];
+
 memcpy(a.d,salt,sizeof(salt));
-  while (j < 1000000000)
+  while (j < 1000000)
   {
     memcpy(ww.d,a.d,sizeof(ww.d));
     for (i = 0; i < N; i++)
-      a.d[i] ^= s_box[ww.d[x1[i]]];
-    for(i=0;i<N/4;i++)
-      a.t[i]=rotl32(a.t[i],18);
+      a.d[i] ^= s_box[ww.d[w[i]]];
+    //for(i=0;i<N/4;i++)
+    //  a.t[i]=rotl32(a.t[i],18);
 
     if (a.z[0] % 2 == 0)
       cnt++;
 
-    for (i = 0; i < N; i++)
-      w[i] = x0[x1[x2[i]]];
+
+    fwrite(a.d,1,64,fp);
 
     memcpy(x1,w,sizeof(x1));
 
@@ -157,7 +161,7 @@ int main()
   time_t t;
   int i,n;
 
-  //srand(clock() + time(&t));
+  srand(clock() + time(&t));
   //初期化しないとひどいことになる謎
   //srand(2);
 
