@@ -136,10 +136,13 @@ memcpy(a.d,salt,sizeof(salt));
   while (j < 1000000)
   {
     memcpy(ww.d,a.d,sizeof(ww.d));
-    for (i = 0; i < N; i++)
-      a.d[i] ^= s_box[ww.d[w[i]]];
-    //for(i=0;i<N/4;i++)
-    //  a.t[i]=rotl32(a.t[i],18);
+    for (i = 0; i < N; i++){
+      a.d[i] ^= s_box[ww.d[w[i]]];  //normal
+      // special
+      //a.d[i] ^= s_box[a.d[w[i]]];
+    }
+    for(i=0;i<N/4;i++)
+     a.t[i]=rotl32(a.t[i],18);
 
     if (a.z[0] % 2 == 0)
       cnt++;
@@ -165,6 +168,19 @@ int main()
   //初期化しないとひどいことになる謎
   //srand(2);
 
+i=0;
+/*
+  fp = fopen("rand.dat", "wb");
+
+while(1){
+n=xor();
+fwrite(&n,4,1,fp);
+if(i==100000000)
+exit(1);
+i++;
+}
+*/
+
   rp(x0);
   rp(x1);
 for(i=0;i<N;i++)
@@ -173,7 +189,7 @@ printf("\n");
 for(i=0;i<N;i++)
 printf("%d,",x1[i]);
 printf("\n");
-  //  fp = fopen("rand.dat", "wb");
+  //
   n=data();
   printf("count=%d\n",n);
   //  fclose(fp);
