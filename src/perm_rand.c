@@ -133,7 +133,8 @@ fp=fopen("aaa.dat","wb");
 memcpy(a.d,salt,sizeof(salt));
   while (j < 1000000)
   {
-        for (i = 0; i < N; i++)
+
+      for (i = 0; i < N; i++)
       w[i] = x0[x1[x2[i]]];
 
     memcpy(ww.d,a.d,sizeof(ww.d));
@@ -147,11 +148,12 @@ memcpy(a.d,salt,sizeof(salt));
 
     if (a.z[0] % 2 == 0)
       cnt++;
+    memcpy(x1,w,sizeof(x1));
 
 
     fwrite(a.d,1,64,fp);
 
-    memcpy(x1,w,sizeof(x1));
+
 
     j++;
   }
