@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#define N 16
+#define N 8
 #define BIT_VERSION
 
 
@@ -67,10 +67,10 @@ unsigned long long int toInt(unsigned char * a){
 unsigned long long int p_rand(){
 #ifdef BIT_VERSION
 	static unsigned char a[N] = {
-		1,1,1,1,1,1,1,1,
+		1,0,1,0,0,0,0,0,
 		//1,1,1,1,1,1,1,1,
 		//0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,
+		//0,0,0,0,0,0,0,0,
 		//1,1,1,1,1,1,1,1,
 		//1,1,1,1,1,1,1,1,
 		//0,0,0,0,0,0,0,0,
@@ -92,7 +92,7 @@ unsigned long long int p_rand(){
 
 	static unsigned char tmp[N];
 	int i;
-/*
+
 	if(first){
 		first = 0;
 
@@ -100,14 +100,14 @@ unsigned long long int p_rand(){
 		random_permutation(y);
 
 		for(i=0;i<N;i++){
-			printf("%d,",x[i]);
+		//	printf("%d,",x[i]);
 			inv_x[x[i]]=i; 
 		}		
-		printf("\n");
+		//printf("\n");
 	}
-*/
+
 		for(i=0;i<N;i++)
-		printf("%d,",x[i]);
+		printf("%d,",tmp[i]);
 		printf("\n");
 
 	// a ^= a * y
@@ -134,22 +134,25 @@ int main(){
 	a = p_rand();
 	time_t t;
 
-	srand(time(&t)); 
-
-		random_permutation(x);
-		random_permutation(y);
-
+	//srand(time(&t)); 
+	printf("%d\n",a);
+		//random_permutation(x);
+		//random_permutation(y);
+		/*
 		for(i=0;i<N;i++){
 			inv_x[x[i]]=i; 
 		}		
 		printf("\n");
-
+	*/
 	b=p_rand();
 	while(j<0xffff){
 		c=p_rand();	
 		d=p_rand();	
-		if(a==c && b==d)
+		printf(" c=%d d=%d %d\n",c,d,j);
+		if(a==c && b==d){
+		printf(" f1=%d %d\n",a,b);
 		nn++;
+		}
 		if(nn>2)
 		break;
 
@@ -157,7 +160,9 @@ int main(){
 		count++;
 		if(j==60000){
 			a=p_rand();
+			printf("f2=%d\n",a);
 			b=p_rand();
+			nn=0;
 			v++;
 			j=0;
 		}
