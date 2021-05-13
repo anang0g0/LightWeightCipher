@@ -129,12 +129,13 @@ fp=fopen("aaa.dat","wb");
   for (i = 0; i < N; i++)
     x2[x0[i]] = i;
 
-    for (i = 0; i < N; i++)
-      w[i] = x0[x1[x2[i]]];
 
 memcpy(a.d,salt,sizeof(salt));
   while (j < 1000000)
   {
+        for (i = 0; i < N; i++)
+      w[i] = x0[x1[x2[i]]];
+
     memcpy(ww.d,a.d,sizeof(ww.d));
     for (i = 0; i < N; i++){
       a.d[i] ^= s_box[ww.d[w[i]]];  //normal
