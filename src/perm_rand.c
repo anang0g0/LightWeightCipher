@@ -123,11 +123,9 @@ int data()
   FILE *fp;
   unsigned char z[N];
   unsigned char w[N] = {0};
-  unsigned int cnt = 0;
+  unsigned int cnt = 0,flg=0;
 
 fp=fopen("aaa.dat","wb");
-  for (i = 0; i < N; i++)
-    x2[x0[i]] = i;
 
 
 memcpy(a.d,salt,sizeof(salt));
@@ -165,7 +163,8 @@ int main()
 {
   FILE *fp;
   time_t t;
-  int i,n;
+  int i,n,flg=0,count=0;
+  unsigned char w[N]={0};
 
   srand(clock() + time(&t));
   //初期化しないとひどいことになる謎
@@ -183,15 +182,127 @@ exit(1);
 i++;
 }
 */
+int aaa;
+unsigned char x3[N]={0},x4[N]={0},x5[N]={0};
 
   rp(x0);
   rp(x1);
+  for(i=0;i<N;i++)
+  x2[x0[i]]=i;
+  for(i=0;i<N;i++)
+  printf("%d,",x2[x0[i]]);
+  printf("\n");
+//  exit(1);
+
+
+lu:
+aaa=0;
+flg=0;
+count=0;
+//  rp(x0);
+//  rp(x1);
+ke:
+count=0;
+aaa=0;
 for(i=0;i<N;i++)
-printf("%d,",x0[i]);
-printf("\n");
+  w[i]=x0[x1[x2[i]]];
+for(i=0;i<N;i++){
+  if(w[i]==x4[i])
+  count++;
+}
+if(count==N){
+  printf("affun\n");
+  exit(1);
+}
+count=0;
+
+memcpy(x4,w,sizeof(x1));
+memcpy(x5,w,sizeof(x1));
+  while(1){
+    flg=0;
+    for(i=0;i<N;i++){
+      x3[i]=x4[x5[i]];
+      printf("%d,",x3[i]);
+      if(x3[i]==i)
+      flg++;
+    }
+    printf("\n");
+    if(flg==N)
+      break;
+    if(flg==0)
+      count++;
+    memcpy(x5,x3,sizeof(x1));
+  }
+  printf("count1=%d\n",count);
+
+for(i=0;i<N;i++){
+  if(x1[i]==x4[i])
+    aaa++;
+}
+if(aaa==N){
+  for(i=0;i<N;i++)
+  printf("%d,",x1[i]);
+  printf("\n");
+  for(i=0;i<N;i++)
+  printf("%d,",w[i]);
+    printf(" qqqqqqqqqqqqqq\n");
+//memcpy(x1,w,sizeof(x1)); 
+//exit(1);
+}
+//memcpy(x1,x4,sizeof(x1));
+  goto ke;
+  exit(1);
+
+le:
+  count=0;
+  flg=0;
+  for(i=0;i<N;i++)
+  w[i]=x0[x1[x2[i]]];
+  memcpy(x1,w,sizeof(x1));
+  memcpy(x4,w,sizeof(x1));
+  while(1){
+    //printf("test");
+    for(i=0;i<N;i++){
+      x3[i]=x4[x1[i]];
+      printf("%d,",x3[i]);
+      if(x3[i]==i)
+        flg++;
+    }
+    if(flg==N)
+      break;
+    printf("\n");
+    if(flg==0)
+    count++;
+    memcpy(x1,x3,sizeof(x1));
+  }
 for(i=0;i<N;i++)
-printf("%d,",x1[i]);
+printf("%d,",x3[i]);
 printf("\n");
+printf("count=%d\n",count);
+//goto le;
+memcpy(x1,w,sizeof(x1));
+exit(1);
+
+
+while (flg==0)
+{
+
+  flg=0;
+  for (i = 0; i < N; i++)
+    x2[x0[i]] = i;
+    memcpy(x0,x2,sizeof(x0));
+  for(i=0;i<N;i++){
+    if(x0[i]!=i){
+    flg=1;
+    count++;
+    break;
+    }
+  }
+
+}
+printf("count=%d\n",count);
+exit(1);
+
   //
   n=data();
   printf("count=%d\n",n);
