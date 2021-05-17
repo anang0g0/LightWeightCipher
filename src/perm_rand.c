@@ -204,7 +204,6 @@ for(i=0;i<N;i++)
   memcpy(x6,w,sizeof(w));
 
 ke:
-
 count=0;
 aaa=0;
 for(i=0;i<N;i++){
