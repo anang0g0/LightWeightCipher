@@ -118,7 +118,7 @@ int main()
 {
 	FILE *fp = fopen("out.dat", "wb");
 	unsigned int i, j = 0, count = 0, nn = 0;
-	unsigned char a, b, c, d, v = 0;
+	unsigned char a, b, c, d, v = 0,r;
 	//unsigned char a[4]={0,1,0,1};
 	//unsigned long long int
 
@@ -156,7 +156,8 @@ ku:
 	{
 		c ^= p_rand();
 		d ^= p_rand();
-		printf(" c=%u d=%u %d\n", c, d, j);
+
+		//printf(" c=%u d=%u %d\n", c, d, j);
 		if (a == c && b == d)
 		{
 			nn++;
@@ -174,13 +175,15 @@ ku:
 			b = p_rand();
 			nn = 0;
 			v++;
-			j = 0;
+			//j = 0;
 		}
 		if (v == 3)
 		{
 			exit(1);
 		}
 		j++;
+		if(j>0xfffffff)
+		break;
         c^=d;
     fwrite(&c,1,1,fp);
 	}
