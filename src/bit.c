@@ -93,7 +93,7 @@ unsigned long long int p_rand()
 	memcpy(tmp, A, sizeof(tmp)); 	// tmp = a;
 	for (i = 0; i < N; i++)
 	{
-		A[i] ^= A[y[i]];
+		A[i] ^=A[y[i]];
 	}
 
 	// y = x * y * ~x
@@ -163,23 +163,23 @@ ku:
 			nn++;
 			printf(" f1=%u %u count=%d\n", a, b, (j + 1) / nn);
 		}
-		if (nn > 100000)
-			break;
+		//if (nn > 100000)
+		//	break;
 
 		if (a % 2 == 0)
 			count++;
-		if (j == 0xffffff)
+		if (j % 0xffffff==0)
 		{
 			a = p_rand();
 			printf("f2=%d\n", a);
 			b = p_rand();
-			nn = 0;
+			//nn = 0;
 			v++;
 			//j = 0;
 		}
-		if (v == 3)
+		//if (v == 3)
 		{
-			exit(1);
+		//	exit(1);
 		}
 		j++;
 		if(j>0xfffffff)
