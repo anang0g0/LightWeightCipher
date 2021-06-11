@@ -6,8 +6,9 @@
 #define N 64
 #define BIT_VERSION 0
 
-typedef struct {
+typedef union {
 	unsigned char x[N];
+	unsigned long long int u[N/8];
 } arr;
 
 void random_permutation(unsigned char* a){
@@ -40,13 +41,13 @@ unsigned int toInt(unsigned char * a){
 	return ret;
 }
 
-void keygen(){
+void keygen(arr a){
 	unsigned char key[N]={0};
 	int i;
 	FILE *fp;
 
 	for(i=0;i<32;i++)
-	key[i]=rand()%256;
+	key[i]=a.x[i]^rand()%256;
 	fp=fopen("sec.key","wb");
 	fwrite(key,1,N,fp);
 	fclose(fp);
@@ -116,23 +117,26 @@ int main(int argc,char *argv[]){
 	int i,j=0,c;
 	unsigned char pass[32]={0};
 	unsigned char buf[8]={0};
-	unsigned char uu[32]={0};
+	char uu[32]={0};
 	unsigned long long int ux=0;
-
-	scanf("%s",&uu);
+	arr t={0};
+	
+	scanf("%s",&t.x);
+	printf("%llu %llu\n",t.u[0],t.u[1]);
+	//printf("%d\n",strlen(t.x));
 //	exit(1);
-	for(i=0;i<8;i++){
-	ux=(ux<<8);
-	ux^=uu[i];
-	}
-	printf("%llu",ux);
-	srand(ux);
+	//for(i=0;i<8;i++){
+	//ux=(ux<<8);
+	//ux^=t.x[i];
+	//}
+	//printf("%llu\n",t.u[0]);
+	srand(t.u[0]);
 
 	if(*argv[1]=='k'){
-	keygen();
+	keygen(t);
 	exit(1);
 	}
-	while((c=fread(buf,1,8,fp))>0){
+	while((c=fread(buf,1,N,fp))>0){
 		
 		arr a = p_rand();
 		for(i=0;i<8;i++){
