@@ -45,7 +45,7 @@ void keygen(){
 	int i;
 	FILE *fp;
 
-	for(i=0;i<N;i++)
+	for(i=0;i<32;i++)
 	key[i]=rand()%256;
 	fp=fopen("sec.key","wb");
 	fwrite(key,1,N,fp);
