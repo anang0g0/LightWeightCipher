@@ -126,7 +126,7 @@ int main(int argc,char *argv[]){
 	scanf("%s",&t.x);
 	printf("%llu %llu\n",t.u[0],t.u[1]);
 
-	srand(t.d[0]+t.d[1]+t.d[2]+t.d[3]);
+	srand(t.d[0]^t.d[1]|t.d[2]&t.d[3]);
 
 	if(*argv[1]=='k'){
 	keygen(t);
