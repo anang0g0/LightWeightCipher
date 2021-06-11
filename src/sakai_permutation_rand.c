@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 
-#define N 32
+#define N 64
 #define BIT_VERSION 0
 
 typedef struct {
@@ -116,12 +116,18 @@ int main(int argc,char *argv[]){
 	int i,j=0,c;
 	unsigned char pass[32]={0};
 	unsigned char buf[8]={0};
-	unsigned long long int uu=0;
+	unsigned char uu[32]={0};
+	unsigned long long int ux=0;
 
-	scanf("%llu",&uu);
+	scanf("%s",&uu);
 //	exit(1);
-	srand(uu);
-	uu=0;
+	for(i=0;i<8;i++){
+	ux=(ux<<8);
+	ux^=uu[i];
+	}
+	printf("%llu",ux);
+	srand(ux);
+
 	if(*argv[1]=='k'){
 	keygen();
 	exit(1);
