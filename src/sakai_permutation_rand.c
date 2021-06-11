@@ -85,17 +85,17 @@ arr p_rand(arr tt){
 
 		random_permutation(x);
 		random_permutation(y);
+		for(i=0;i<32;i++)
+		a[i]^=tt.x[i];
 
 		for(i=0;i<N;i++){
 			inv_x[x[i]]=i; 
 		}		
 	}
-	for(i=0;i<32;i++)
-	a[i]^=tt.x[i];
 	// a ^= a * y
-	memcpy(tmp, a, sizeof(tmp)); 	// tmp = a;
+	//memcpy(tmp, a, sizeof(tmp)); 	// tmp = a;
 	for(i=0;i<N;i++){ 
-		a[i] ^= tmp[y[i]];
+		a[i] ^= a[y[i]];
 	}
 	for(i=0;i<8;i++){
 		xx.x[i]^=a[i];
