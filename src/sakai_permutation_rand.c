@@ -95,7 +95,6 @@ arr p_rand(){
 		a[i] ^= tmp[y[i]];
 	}
 	for(i=0;i<8;i++){
-		u64=(u64<<8);
 		xx.x[i]^=a[i];
 	}
 
