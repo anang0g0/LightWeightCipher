@@ -119,12 +119,14 @@ int main(int argc,char *argv[]){
 	unsigned char buf[8]={0};
 	unsigned long long int uu=0;
 
-	scanf("%u",&uu);
+	scanf("%llu",&uu);
 //	exit(1);
 	srand(uu);
 	uu=0;
-	//keygen();
-	//exit(1);
+	if(*argv[1]=='k'){
+	keygen();
+	exit(1);
+	}
 	while((c=fread(buf,1,8,fp))>0){
 		
 		arr a = p_rand();
