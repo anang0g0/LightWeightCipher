@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define N 64
+#define N 8
 #define NN 4
 
 unsigned char x0[N] = {0};
@@ -118,16 +118,14 @@ int data()
   unsigned long long int i, j = 0, k = 0;
 
   arrayul a ={0},ww={0}; 
-  unsigned char salt[N]={0, 166, 108, 148, 136, 242, 113, 68, 172, 152, 19, 72, 49, 199, 89, 13, 23, 210, 214, 187, 77, 68, 204, 4, 150, 239, 243, 60, 165, 236, 121, 206, 226, 180, 26, 143, 162, 169, 124, 58, 94, 148, 232, 95, 227, 204, 18, 170, 34, 249, 221, 20, 138, 84, 147, 71, 131, 190, 225, 166, 114, 133, 31, 252}; //{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
+  unsigned char salt[N]={0}; //{0, 166, 108, 148, 136, 242, 113, 68, 172, 152, 19, 72, 49, 199, 89, 13, 23, 210, 214, 187, 77, 68, 204, 4, 150, 239, 243, 60, 165, 236, 121, 206, 226, 180, 26, 143, 162, 169, 124, 58, 94, 148, 232, 95, 227, 204, 18, 170, 34, 249, 221, 20, 138, 84, 147, 71, 131, 190, 225, 166, 114, 133, 31, 252}; //{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0};
   unsigned short aa = 0;
   FILE *fp;
   unsigned char z[N];
   unsigned char w[N] = {0};
-  unsigned int cnt = 0;
+  unsigned int cnt = 0,flg=0;
 
 fp=fopen("aaa.dat","wb");
-  for (i = 0; i < N; i++)
-    x2[x0[i]] = i;
 
 
 memcpy(a.d,salt,sizeof(salt));
@@ -165,7 +163,8 @@ int main()
 {
   FILE *fp;
   time_t t;
-  int i,n;
+  int i,n,flg=0,count=0;
+  unsigned char w[N]={0};
 
   srand(clock() + time(&t));
   //初期化しないとひどいことになる謎
@@ -183,15 +182,84 @@ exit(1);
 i++;
 }
 */
+int aaa,count2=0;
+unsigned char x3[N]={0},x4[N]={0},x5[N]={0},x6[N]={0};
 
-  rp(x0);
-  rp(x1);
+
+
+lu:
+
+rp(x0);
+rp(x1);
+aaa=0;
+flg=0;
+count=0;
+  for(i=0;i<N;i++)
+  x2[x0[i]]=i;
+  for(i=0;i<N;i++)
+  printf("%d,",x2[x0[i]]);
+  printf("\n");
 for(i=0;i<N;i++)
-printf("%d,",x0[i]);
-printf("\n");
+  w[i]=x0[x1[x2[i]]];
+  memcpy(x6,w,sizeof(w));
+
+ke:
+count=0;
+aaa=0;
+for(i=0;i<N;i++){
+  if(w[i]==x5[i])
+  count++;
+}
+if(count==N){
+  printf("affun\n");
+  exit(1);
+}
+count=0;
+
+memcpy(x4,w,sizeof(x1));
+memcpy(x5,w,sizeof(x1));
+  while(1){
+    flg=0;
+    for(i=0;i<N;i++){
+      x3[i]=x4[x5[i]];
+      printf("%d,",x3[i]);
+      if(x3[i]==i)
+      flg++;
+    }
+    printf("\n");
+    if(flg==N)
+      break;
+    if(flg==0)
+      count++;
+    memcpy(x5,x3,sizeof(x1));
+  }
+  printf("count1=%d\n",count);
+
+  memcpy(x1,w,sizeof(w));
 for(i=0;i<N;i++)
-printf("%d,",x1[i]);
-printf("\n");
+  w[i]=x0[x1[x2[i]]];
+
+for(i=0;i<N;i++){
+  if(w[i]==x6[i])
+    aaa++;
+}
+
+//memcpy(x1,w,sizeof(x1));
+if(aaa==N){
+  for(i=0;i<N;i++)
+  printf("%d,",x6[i]);
+  printf("\n");
+  for(i=0;i<N;i++)
+  printf("%d,",w[i]);
+    printf("\ncount2=%d\n",count2);
+//memcpy(x1,w,sizeof(x1)); 
+exit(1);
+}
+count2++;
+memcpy(x1,w,sizeof(x1));
+  goto ke;
+
+
   //
   n=data();
   printf("count=%d\n",n);
