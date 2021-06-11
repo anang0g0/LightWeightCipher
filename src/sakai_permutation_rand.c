@@ -8,6 +8,7 @@
 
 typedef union {
 	unsigned char x[N];
+	unsigned int d[N/4];
 	unsigned long long int u[N/8];
 } arr;
 
@@ -53,7 +54,7 @@ void keygen(arr a){
 	fclose(fp);
 }
 
-arr p_rand(){
+arr p_rand(arr tt){
 	static unsigned char a[N];
 	FILE *fp;
 	unsigned long long int u64=0;
@@ -89,7 +90,8 @@ arr p_rand(){
 			inv_x[x[i]]=i; 
 		}		
 	}
-
+	for(i=0;i<32;i++)
+	a[i]^=tt.x[i];
 	// a ^= a * y
 	memcpy(tmp, a, sizeof(tmp)); 	// tmp = a;
 	for(i=0;i<N;i++){ 
@@ -123,26 +125,17 @@ int main(int argc,char *argv[]){
 	
 	scanf("%s",&t.x);
 	printf("%llu %llu\n",t.u[0],t.u[1]);
-	//printf("%d\n",strlen(t.x));
-//	exit(1);
-	//for(i=0;i<8;i++){
-	//ux=(ux<<8);
-	//ux^=t.x[i];
-	//}
-	//printf("%llu\n",t.u[0]);
-	srand(t.u[0]);
+
+	srand(t.d[0]+t.d[1]+t.d[2]+t.d[3]);
 
 	if(*argv[1]=='k'){
 	keygen(t);
 	exit(1);
 	}
-	while((c=fread(buf,1,N,fp))>0){
+	while((c=fread(buf,1,8,fp))>0){
 		
-		arr a = p_rand();
+		arr a = p_rand(t);
 		for(i=0;i<8;i++){
-		//printf("%u",buf[i]);
-		//uu=(uu<<8);
-		//uu^=buf[i];
 		buf[i]^=a.x[i]; //rand()%256;
 		}
 
